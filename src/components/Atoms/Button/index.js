@@ -26,6 +26,7 @@ const Button = ({
   text,
   children,
   radius,
+  type,
   SpinnerProps,
   iconLeft,
   iconRight,
@@ -37,6 +38,7 @@ const Button = ({
   return (
     <ButtonComponent
       {...props}
+      type={type}
       className={`${theme} ${className} ${
         radius === "full"
           ? "rounded-pill"
@@ -72,6 +74,7 @@ Button.defaultProps = {
   disabled: false,
   onClick: undefined,
   loading: false,
+  type: "button",
   loadingText: "Loading",
   SpinnerProps: {
     size: "sm",
@@ -98,6 +101,7 @@ Button.propTypes = {
   iconLeft: PropTypes.element,
   iconRight: PropTypes.element,
   className: PropTypes.string,
+  type: PropTypes.string
 };
 
 export default Button;

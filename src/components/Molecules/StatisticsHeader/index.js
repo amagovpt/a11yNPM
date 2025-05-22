@@ -20,16 +20,25 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
 
     // Stats with percentage and multiple subtitles
     const percentageStats = (value, object, total, first, index) => {
-        const percentage = (value*100/total).toFixed(1)
+        const percentage = (value * 100 / total) % 1 === 0
+            ? (value * 100 / total).toFixed(0) // Sem casas decimais se for inteiro
+            : (value * 100 / total).toFixed(1); // Com uma casa decimal se não for inteiro
+
         return (
-            <div key={index} className="d-flex flex-column margin_mobile">
-                <p className="bold p-1">
-                    {value}
-                    {!first ? <span className="ama-typography-body-large ps-2">{percentage}%</span> : null}
-                </p>
-                {object.subtitle2 !== "" ? <span className="ama-typography-body bold">{object.subtitle2}</span> : null}
-                <span className="ama-typography-body">{object.subtitle}</span>
+            <div key={index} >
+                <div aria-hidden="true" className="d-flex flex-column margin_mobile">
+                    <p className="bold p-1">
+                        {value}
+                        {!first ? <span className="ama-typography-body-large ps-2">{percentage}%</span> : null}
+                    </p>
+                    {object.subtitle2 !== "" ? <span className="ama-typography-body bold">{object.subtitle2}</span> : null}
+                    <span className="ama-typography-body">{object.subtitle}</span>
+                </div>
+                <div>
+                    <span role="text" className="visually-hidden">{value} {object.subtitle } {object.subtitle2} {`${!first ? percentage + "%" : ""}`}</span>
+                </div>
             </div>
+
         )
     }
 
@@ -42,11 +51,11 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
                     <span className="ama-typography-body">{subtitle}</span>
                 </h2>
                 <div className="mb-3 second_column ps-4">
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column" aria-label={` ${oldestPage} ${stats.oldestPage}`}>
                         <span className="ama-typography-body bold mb-1">{oldestPage}</span>
                         <span className="ama-typography-body">{stats.oldestPage}</span>
                     </div>
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column" aria-label={`${newestPage} ${stats.recentPage}`}>
                         <span className="ama-typography-body bold mb-1">{newestPage}</span>
                         <span className="ama-typography-body">{stats.recentPage}</span>
                     </div>
@@ -72,9 +81,9 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
                                 })}
                             </div>
                         </>
-                    : stats.statsTable.map((stat, index) => {
-                        return normalExtraStats(stat, statsTitles[index], index)
-                    })}
+                        : stats.statsTable.map((stat, index) => {
+                            return normalExtraStats(stat, statsTitles[index], index)
+                        })}
                 </div>
             </div>
 

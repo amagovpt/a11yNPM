@@ -22,6 +22,8 @@ export * from "./Molecules/Table";
 export * from "./Molecules/SortingTable";
 export * from "./Molecules/StatisticsHeader";
 export * from "./Molecules/StatsTable";
+export * from "./Molecules/DashboardMenu";
+export * from "./Molecules/Card";
 
 // ORGANISMS
 export * from "./Organisms/Header";

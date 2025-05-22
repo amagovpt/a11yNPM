@@ -1,0 +1,85 @@
+.dashboard-menu {
+    height: 100vh;
+    background-color: white;
+    color: var(--ama-color-brand-primary);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    gap: 16px;
+    left: 0;
+    top: 0;
+
+
+}
+
+.menu-info {
+    margin-top: 40px;
+    margin-left: 15px;
+    color: #000;
+    font-family: Lato;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    font-size: 20px;
+    width: 320px;
+    background-color: white;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.menu-item:hover {
+    background-color: var(--ama-color-text-blue);
+}
+
+.menu-item.active {
+    background-color: var(--ama-color-text-blue-light);
+    border-bottom: 2px solid var(--ama-color-brand-primary);
+}
+
+.menu-icon {
+    margin-right: 1rem;
+    font-size: 1.5rem;
+}
+
+.menu-label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/** Dark Theme **/
+.dashboard-menu.dark {
+    background-color: var(--ama-color-background-dark-darker);
+    color: var(--ama-color-text-blue);
+}
+
+.menu-info.dark {
+    color: var(--ama-color-text-blue);
+}
+
+.menu-item.dark {
+    color: var(--ama-color-text-blue);
+    background-color: var(--ama-color-background-dark-darker);
+}
+
+.menu-item.dark.active {
+    background-color: var( --ama-color-background-dark-lighter);
+    border-bottom: 2px solid var(--ama-color-text-blue);
+}
+
+.menu-item.dark:hover {
+    background-color: var(--ama-color-background-dark-lighter);
+}

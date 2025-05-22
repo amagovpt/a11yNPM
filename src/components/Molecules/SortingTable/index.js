@@ -192,7 +192,7 @@ const SortingTable = (
                 return (
                     <th id={multiHeaders ? id : null} key={index} style={{width: bigWidth}} rowSpan={nOfRows} colSpan={nOfColumns} aria-sort={sameProp ? (sort.type === "asc" ? "descending" : "ascending"):null} className={sameProp ? "first-show show_icon" : "first-show"} onClick={() => setDataList(sortByProperty(headerData.property))}>
                         <div className="d-flex align-items-center justify-content-center">
-                            <Icon name={headerData.name} />
+                            <Icon name={headerData.name} description={headerData.description} />
                             {sameProp && sort.type === "asc" ? <Icon name="AMA-SetaBaixo-Line" /> : <Icon name="AMA-SetaCima-Line" />}
                             <span className="visually-hidden">{headerData.description}</span>
                         </div>
@@ -200,6 +200,7 @@ const SortingTable = (
                 )
             case "Checkbox":
                 return (<th id={multiHeaders ? id : null} key={index} style={{width: bigWidth}} rowSpan={nOfRows} colSpan={nOfColumns} className={`${textCenter} checkbox px-4`}>
+                    <label for="checkbox_all"><span className="visually-hidden">{`${headerData.name}`}</span></label>
                     <input aria-label={headerData.name} type="checkbox" id="checkbox_all" value="all" checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')}></input>
                 </th>)
         }
@@ -228,7 +229,7 @@ const SortingTable = (
                     return null
                 case "Number":
                     // Render a number, if it has "decimalPlace" as TRUE then render the number with 1 decimal place
-                    return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}>{columnsOptions[key].decimalPlace ? row[key].toFixed(1) : row[key]}</td>)
+                    return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}>{columnsOptions[key].decimalPlace ? row[key]?.toFixed(1) : row[key]}</td>)
                 case "Button":
                     let button = columnsOptions[key].onClick ? columnsOptions[key].onClick : () => {return ""}
                     return (<td headers={columnsOptions[key].headers} key={index} className={`${center}`} style={{ justifyItems: "center"}}>
@@ -266,7 +267,7 @@ const SortingTable = (
                 case "Link":
                     let href = columnsOptions[key].href ? columnsOptions[key].href : () => {return ""}
                     // Render a link
-                    return columnsOptions[key].children ? <td headers={columnsOptions[key].headers} key={index}>{columnsOptions[key].children(row, row[key])}</td> : <td headers={columnsOptions[key].headers} key={index}><a href={href(row)} className="ama-typography-action-large bold">{row[key]}</a></td>
+                    return columnsOptions[key].children ? <td headers={columnsOptions[key].headers} key={index}>{columnsOptions[key].children(row, row[key])}</td> : <td headers={columnsOptions[key].headers} key={index}><a href={href(row)} className="ama-typography-body bold">{row[key]}</a></td>
                 case "Text":
                     // Render normal text
                     if(columnsOptions[key].ariaLabel) {
@@ -320,7 +321,8 @@ const SortingTable = (
                     }
                 case "Checkbox":
                     return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ama-typography-body checkbox`}>
-                        <input aria-label={columnsOptions[key].label + row["Uri"]} type="checkbox" id={row.id} name={row.id} value={`${row}`} checked={checkedItems.findIndex(item => item.id === row.id) !== -1} onChange={() => addCheckboxes(row)}></input>
+                        <label aria-hidden="true" for={`checkbox_${row.id}`}><span  className="visually-hidden">{dataList.length}</span></label>
+                        <input aria-label={row["Uri"]} type="checkbox" id={`checkbox_${row.id}`} name={row.id} value={`${row}`} checked={checkedItems.findIndex(item => item.id === row.id) !== -1} onChange={() => addCheckboxes(row)}></input>
                     </td>)
             }
         })

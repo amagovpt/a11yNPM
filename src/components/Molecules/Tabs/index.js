@@ -8,12 +8,15 @@ const Tabs = ({ tabs, vertical, ...props }) => {
   return (
     <div className={`tabs-container ama ${vertical ? "vertical-tabs" : ""}`}>
       <BTabs {...props}>
-        {tabs.map((item) => (
+        {tabs.map((item, index) => (
           <Tab
             key={item.eventKey}
             eventKey={item.eventKey}
+            tabIndex={index === 0 ? index : -1} 
             title={item.title}
             disabled={item.disabled}
+          
+            
           >
             {item.component}
           </Tab>
