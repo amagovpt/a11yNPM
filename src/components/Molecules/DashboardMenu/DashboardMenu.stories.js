@@ -25,7 +25,6 @@ const Template = (args) => {
         <DashboardMenu
             {...args}
             activeItem={activeItem}
-            onMenuItemClick={handleMenuItemClick}
         />
     );
 };
@@ -33,13 +32,13 @@ const Template = (args) => {
 export const Default = Template.bind({});
 Default.args = {
     menuItems: [
-        { id: "home", label: "Home", icon: "AMA-Casa-Line" },
-        { id: "analytics", label: "Categorias", icon: "AMA-MarcadorGrande-Line" },
-        { id: "settings", label: "Diretórios", icon: "AMA-Pasta-Line" },
-        { id: "profile", label: "Utilizadores", icon: "AMA-Casa-Line" },
-        { id: "entity", label: "Entidades", icon: "AMA-Edificio-Line" },
-        { id: "websites", label: "Sítios web", icon: "AMA-Globo-Line" },
-        { id: "pages", label: "Páginas", icon: "AMA-Paginas-Line" }
+        { id: "home", label: "Home", icon: "AMA-Casa-Line", url:"/" },
+        { id: "analytics", label: "Categorias", icon: "AMA-MarcadorGrande-Line", url:"/"  },
+        { id: "settings", label: "Diretórios", icon: "AMA-Pasta-Line", url:"/"  },
+        { id: "profile", label: "Utilizadores", icon: "AMA-Casa-Line", url:"/"  },
+        { id: "entity", label: "Entidades", icon: "AMA-Edificio-Line", url:"/"  },
+        { id: "websites", label: "Sítios web", icon: "AMA-Globo-Line", url:"/"  },
+        { id: "pages", label: "Páginas", icon: "AMA-Paginas-Line", url:"/"  }
     ],
     activeItem: "home",
 };
@@ -47,13 +46,13 @@ Default.args = {
 export const DarkTheme = Template.bind({});
 DarkTheme.args = {
     menuItems: [
-        { id: "home", label: "Home", icon: "AMA-Casa-Line" },
-        { id: "analytics", label: "Categorias", icon: "AMA-MarcadorGrande-Line" },
-        { id: "settings", label: "Diretórios", icon: "AMA-Pasta-Line" },
-        { id: "profile", label: "Utilizadores", icon: "AMA-Casa-Line" },
-        { id: "entity", label: "Entidades", icon: "AMA-Edificio-Line" },
-        { id: "websites", label: "Sítios web", icon: "AMA-Globo-Line" },
-        { id: "pages", label: "Páginas", icon: "AMA-Paginas-Line" }
+        { id: "home", label: "Home", icon: "AMA-Casa-Line", url:"/"  },
+        { id: "analytics", label: "Categorias", icon: "AMA-MarcadorGrande-Line", url:"/"  },
+        { id: "settings", label: "Diretórios", icon: "AMA-Pasta-Line", url:"/"  },
+        { id: "profile", label: "Utilizadores", icon: "AMA-Casa-Line", url:"/"  },
+        { id: "entity", label: "Entidades", icon: "AMA-Edificio-Line", url:"/"  },
+        { id: "websites", label: "Sítios web", icon: "AMA-Globo-Line", url:"/"  },
+        { id: "pages", label: "Páginas", icon: "AMA-Paginas-Line", url:"/"  }
     ],
     activeItem: "home",
     darkTheme: true,
