@@ -1,6 +1,6 @@
-.card {
-    width: fit-content;
-    height: 130px;
+.card-ama {
+    width: 245px;
+    height: 114px;
     box-shadow: 4px 4px 7.7px -5px rgba(0, 0, 0, 0.09);
     border: 2px solid var(--ama-color-brand-primary);
     display: flex;
@@ -13,18 +13,18 @@
     background-color: white;
 }
 
-.card:hover {
+.card-ama:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
-.card-icon {
+.card-icon-ama {
     margin-bottom: 12px;
 }
 
 
-.card-title,
-.card-subtitle {
+.card-title-ama,
+.card-subtitle-ama {
     color: black;
     text-align: right;
     font-family: Lato;
@@ -32,16 +32,16 @@
     line-height: normal;
 }
 
-.card-title {
+.card-title-ama {
     font-size: 40px;
     font-weight: bolder;
 }
 
-.card-subtitle {
+.card-subtitle-ama {
     font-size: 18px;
 }
 
-.card-icon i {
+.card-icon-ama i {
     color: var(--ama-color-brand-primary);
     font-size: 40px;
     padding:15px;
@@ -49,20 +49,20 @@
     background-color: var( --ama-color-blue-0);
 }
 
-.card-content {
+.card-content-ama {
     display: flex;
     flex-direction: column;
 }
 
 
 /*** Dark mode ****/
-.card.dark {
+.card-ama.dark {
     background-color: unset;
     border: 2px solid var(--ama-color-text-blue);
     color: var(--ama-color-text-blue);
 }
 
-.card.dark span, .card.dark i{
+.card-ama.dark span, .card-ama.dark i{
  color: var(--ama-color-text-blue);
  background-color: transparent;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "./index";
+import { Card } from "./index";
 
 export default {
     title: "components/Molecules/Card",
@@ -13,7 +13,7 @@ export const Default = Template.bind({});
 Default.args = {
     title: "Diretórios",
     subtitle: "37",
-    icon: "AMA-Pasta-Line", 
+    icon: "AMA-Pasta-Line",
     darkTheme: false,
 };
 
@@ -21,6 +21,6 @@ export const DarkTheme = Template.bind({});
 DarkTheme.args = {
     title: "Arquivos",
     subtitle: "12",
-    icon: "AMA-Paginas-Line", 
+    icon: "AMA-Paginas-Line",
     darkTheme: true,
 };

@@ -2,27 +2,25 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./style.css";
 import { Icon } from '../../Atoms/Icon';
-import { Link } from "react-router-dom";
-const DashboardMenu = ({ menuItems, activeItem, darkTheme }) => {
+const DashboardMenu = ({ menuItems, onMenuItemClick, activeItem, darkTheme }) => {
 
     const theme = darkTheme ? "dark" : "";
     return (
         <div className={"dashboard-menu" + " " + theme}>
-            <span class={"menu-info" + " " + theme}>Menu</span>
+            <span className={"menu-info" + " " + theme}>Menu</span>
             <ul className={"menu-list" + " " + theme}>
                 {menuItems.map((item, index) => (
-                    <li
-                        key={index}
-                        role="menuitem"
-                        tabIndex={0}
-                        aria-current={activeItem === item.id ? "page" : undefined}
-                        className={`menu-item ${theme} ${activeItem === item.id ? "active" : ""}`}
-                    >
-                        <Link to={item.url}>
+                        <li
+                            key={index}
+                            role="menuitem"
+                            onClick={() => onMenuItemClick(item.id)}
+                            tabIndex={0}
+                            aria-current={activeItem === item.id ? "page" : undefined}
+                            className={`menu-item ${theme} ${activeItem === item.id ? "active" : ""}`}
+                        >
                             <Icon name={item.icon} darkTheme={darkTheme} />
                             <span className="menu-label text-center">{item.label}</span>
-                        </Link>
-                    </li>
+                        </li>
                 ))}
             </ul>
         </div>
@@ -41,4 +39,4 @@ DashboardMenu.propTypes = {
     activeItem: PropTypes.string,
 };
 
-export default DashboardMenu;
+export { DashboardMenu };

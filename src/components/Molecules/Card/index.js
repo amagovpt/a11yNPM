@@ -5,13 +5,13 @@ import { Icon } from '../../Atoms/Icon';
 const Card = ({ title, subtitle, icon, darkTheme }) => {
     const theme = darkTheme ? "dark" : "";
     return (
-        <div class={`card ${theme}`}>
-            <div class="card-icon">
-               <Icon name={icon} darkTheme={darkTheme} description={title} />
+        <div class={`card-ama ${theme}`}>
+            <div class="card-icon-ama">
+                <Icon name={icon} darkTheme={darkTheme} description={title} />
             </div>
-            <div class={`card-content ${theme}`}>
-                <span class="card-title">{subtitle}</span>
-                <span class="card-subtitle">{title}</span>
+            <div class={`card-content-ama ${theme}`}>
+                <span class="card-title-ama">{subtitle}</span>
+                <span class="card-subtitle-ama">{title}</span>
             </div>
         </div>
     );
@@ -21,4 +21,4 @@ Card.propTypes = {
     subtitle: PropTypes.string.isRequired,
     icon: PropTypes.string.isRequired,
 };
-export default Card;
+export { Card };
