@@ -1,15 +1,16 @@
 .dashboard-menu {
-    background-color: white;
-    color: var(--ama-color-brand-primary);
+    background-color: var(--ama-color-background-dark-darker);
+    color: white;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    height: 100vh;
 }
 
 .menu-info {
     margin-top: 40px;
     margin-left: 15px;
-    color: #000;
+    color: white;
     font-family: Lato;
     font-size: 24px;
     font-style: normal;
@@ -32,19 +33,20 @@
     padding: 1rem;
     font-size: 20px;
     width: 320px;
-    background-color: white;
+    background-color: var(--ama-color-background-dark-darker);
+    color: white;
     gap: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .menu-item:hover {
-    background-color: var(--ama-color-text-blue);
+    background-color: var(--ama-color-background-dark-lighter);
 }
 
 .menu-item.active {
-    background-color: var(--ama-color-text-blue-light);
-    border-bottom: 2px solid var(--ama-color-brand-primary);
+    background-color: var(--ama-color-background-dark-lighter);
+    border-bottom: 2px solid white;
 }
 
 .menu-icon {
