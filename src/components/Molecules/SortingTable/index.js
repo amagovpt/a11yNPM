@@ -39,6 +39,13 @@ const SortingTable = (
         project, 
         ariaLabels, 
         setCheckboxesSelected,
+        // New props for dynamic pagination
+        totalItems, // total number of items (from endpoint)
+        currentPage, // current page (controlled by parent)
+        itemsPerPage, // items per page (controlled by parent)
+        onPageChange, // function(pageNumber) => void
+        onItemsPerPageChange, // function(itemsPerPage) => void
+        paginationOptions, // array of numbers for items per page
     }) => {
 
     //SORT
@@ -47,12 +54,19 @@ const SortingTable = (
     //Multi Headers?
     const multiHeaders = Array.isArray(headers[0])
 
-    //Pagination
-    const [page, setPage] = useState(1);
-    const [lastPage, setLastPage] = useState(1);
-    const [nItemsCurrent, setNItemsCurrent] = useState(50);
-    const [list, setList] = useState(null);
-    const nAllItems = dataList && dataList.length
+    //Remove internal state for page, lastPage, nItemsCurrent
+    // const [page, setPage] = useState(1);
+    // const [lastPage, setLastPage] = useState(1);
+    // const [nItemsCurrent, setNItemsCurrent] = useState(50);
+    // Instead, use props:
+    const nAllItems = typeof totalItems === 'number' ? totalItems : (dataList ? dataList.length : 0);
+    const page = typeof currentPage === 'number' ? currentPage : 1;
+    const nItemsCurrent = typeof itemsPerPage === 'number' ? itemsPerPage : 50;
+    const lastPage = Math.max(1, Math.ceil(nAllItems / nItemsCurrent));
+    // Generate pagination options dynamically if not provided
+    const defaultPaginationOptions = [10, 25, 50, 100, 250, 500].filter(opt => opt < nAllItems);
+    if (!defaultPaginationOptions.includes(nAllItems)) defaultPaginationOptions.push(nAllItems);
+    const pageOptions = Array.isArray(paginationOptions) && paginationOptions.length > 0 ? paginationOptions : defaultPaginationOptions;
 
     //Check
     const [checkedItems, setCheckedItems] = useState([]);
@@ -64,11 +78,11 @@ const SortingTable = (
     // based on how many items per page is to be shown
     useEffect(() => {
         if(dataList && pagination) {
-            setPage(1)
-            setLastPage(Math.ceil(dataList.length / nItemsCurrent))
-            setList(dataList.slice(0, nItemsCurrent))
+            // setPage(1) // Removed
+            // setLastPage(Math.ceil(dataList.length / nItemsCurrent)) // Removed
+            // setList(dataList.slice(0, nItemsCurrent)) // Removed
         } else {
-            setList(dataList)
+            // setList(dataList) // Removed
         }
     }, [nItemsCurrent, dataList])
 
@@ -76,11 +90,11 @@ const SortingTable = (
     // Gives the new data to the table
     useEffect(() => {
         if(dataList && pagination) {
-            const start = page === 1 ? 0 : (page-1) * nItemsCurrent
-            const end = page === 1 ? nItemsCurrent : page * nItemsCurrent
-            setList(dataList.slice(start, end))
+            // const start = page === 1 ? 0 : (page-1) * nItemsCurrent // Removed
+            // const end = page === 1 ? nItemsCurrent : page * nItemsCurrent // Removed
+            // setList(dataList.slice(start, end)) // Removed
         } else {
-            setList(dataList)
+            // setList(dataList) // Removed
         }
     }, [page])
 
@@ -199,9 +213,10 @@ const SortingTable = (
                     </th>
                 )
             case "Checkbox":
+                const checkboxId = `checkbox_all_${Math.random().toString(36).substring(2, 15)}`
                 return (<th id={multiHeaders ? id : null} key={index} style={{width: bigWidth}} rowSpan={nOfRows} colSpan={nOfColumns} className={`${textCenter} checkbox px-4`}>
-                    <label for="checkbox_all"><span className="visually-hidden">{`${headerData.name}`}</span></label>
-                    <input aria-label={headerData.name} type="checkbox" id="checkbox_all" value="all" checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')}></input>
+                    <label for={checkboxId}><span className="visually-hidden">{`${headerData.name}`}</span></label>
+                    <input aria-label={headerData.name} type="checkbox" id={checkboxId} value="all" checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')}></input>
                 </th>)
         }
     }
@@ -277,25 +292,31 @@ const SortingTable = (
                     }
                 case "Stamp":
                     // Render one of the 3 Stamp Icons based on the number received (from: 1 to 3)
+                    const stampAlts = iconsAltTexts && iconsAltTexts.length >= 3 ? iconsAltTexts : [
+                        "Selo Bronze", "Selo Prata", "Selo Ouro"
+                    ];
                     switch(row[key]) {
                         case 1:
-                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Selo_Bronze.svg`} alt={iconsAltTexts[0]} /></td>)
+                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Selo_Bronze.svg`} alt={stampAlts[0]} /></td>)
                         case 2:
-                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Selo_Prata.svg`} alt={iconsAltTexts[1]} /></td>)
+                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Selo_Prata.svg`} alt={stampAlts[1]} /></td>)
                         case 3:
-                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Selo_Ouro.svg`} alt={iconsAltTexts[2]} /></td>)
+                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Selo_Ouro.svg`} alt={stampAlts[2]} /></td>)
                         default:
                             return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}>{row[key]}</td>)
                     }
                 case "Declaration":
                     // Render one of the 3 Declaration Icons based on the number received (from: 1 to 3)
+                    const declarationAlts = iconsAltTexts && iconsAltTexts.length >= 6 ? iconsAltTexts.slice(3, 6) : [
+                        "Declaração Não Conforme", "Declaração Parcialmente Conforme", "Declaração Conforme"
+                    ];
                     switch(row[key]) {
                         case 1:
-                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Declaracao_Nao_Conforme.svg`} alt={iconsAltTexts[3]} /></td>)
+                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Declaracao_Nao_Conforme.svg`} alt={declarationAlts[0]} /></td>)
                         case 2:
-                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Declaracao_Parcial_Conforme.svg`} alt={iconsAltTexts[4]} /></td>)
+                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Declaracao_Parcial_Conforme.svg`} alt={declarationAlts[1]} /></td>)
                         case 3:
-                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Declaracao_Conforme.svg`} alt={iconsAltTexts[5]} /></td>)
+                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><img src={`${project}img/SVG_Declaracao_Conforme.svg`} alt={declarationAlts[2]} /></td>)
                         default:
                             return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}>{row[key]}</td>)
                     }
@@ -332,7 +353,7 @@ const SortingTable = (
         <div className={`ama sorting_table_responsive ${theme}`}>
             <table className="table sorting_table" data-sortable="true">
                 {/* Table caption -> descripton of the table */}
-                <caption className="visually-hidden">
+                <caption>
                     {caption}
                 </caption>
                 <thead>
@@ -359,7 +380,7 @@ const SortingTable = (
 
                 <tbody>
                     {/* Render the data cells of the table */}
-                    {list && list.map((row, index) => {
+                    {dataList && dataList.map((row, index) => {
                         return (
                             <tr key={index}>
                                 {renderAttributes(row)}
@@ -377,36 +398,42 @@ const SortingTable = (
                 </div>
 
                 {/* Section informing the number of items per page and option to change */}
-                <nav className="pagination_section" aria-roledescription={nItemsPerPageTexts[3]}>
+                <nav className="pagination_section" aria-roledescription={nItemsPerPageTexts[3]} arial-label="itens por página">
                     <span className="ama-typography-body">{nItemsPerPageTexts[0]}</span>
-                    <select aria-label={nItemsPerPageTexts[2]} className="selection" name="itemsPerPage" id="itemsPerPage" onChange={(e) => setNItemsCurrent(e.target.value)}>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="250">250</option>
-                        <option value="500">500</option>
-                    </select>
+                        <select
+                            aria-label={nItemsPerPageTexts[2]}
+                            className="selection"
+                            name="itemsPerPage"
+                            id="itemsPerPage"
+                            value={nItemsCurrent}
+                            onChange={(e) => onItemsPerPageChange && onItemsPerPageChange(Number(e.target.value))}
+                        >
+                            {pageOptions.map(opt => (
+                                <option key={opt} value={opt}>{opt}</option>
+                            ))}
+                        </select>
                     <span className="ama-typography-body">{nItemsPerPageTexts[1]}</span>
                 </nav>
 
                 {/* Section with the pagination navigation */}
-                <div className="pagination_section">
-                    <button disabled={page === 1 ? true : false} className={page === 1 ? "disabled button_dir" : "button_dir"} onClick={() => setPage(1)}>
+                <nav class="pagination_section" aria-roledescription="seletor" aria-label="páginas" >
+                    <button disabled={page === 1} className={page === 1 ? "disabled button_dir" : "button_dir"} onClick={() => onPageChange && onPageChange(1)}>
                         <span className="visually-hidden">{paginationButtonsTexts[0]}</span>
                         <Icon name="AMA-LastPage-Solid" />
                     </button>
-                    <button disabled={page === 1 ? true : false} className={page === 1 ? "disabled button_dir" : " button_dir"} onClick={() => setPage(page-1)}>
+                    <button disabled={page === 1} className={page === 1 ? "disabled button_dir" : " button_dir"} onClick={() => onPageChange && onPageChange(page-1)}>
                         <span className="visually-hidden">{paginationButtonsTexts[1]}</span>
                         <Icon name="AMA-SetaDir3-Solid" />
                     </button>
-                    <button disabled={page === lastPage ? true : false} className={page === lastPage ? "disabled" : ""} onClick={() => setPage(page+1)}>
+                    <button disabled={page === lastPage} className={page === lastPage ? "disabled" : ""} onClick={() => onPageChange && onPageChange(page+1)}>
                         <span className="visually-hidden">{paginationButtonsTexts[2]}</span>
                         <Icon name="AMA-SetaDir3-Solid" />
                     </button>
-                    <button disabled={page === lastPage ? true : false} className={page === lastPage ? "disabled" : ""} onClick={() => setPage(lastPage)}>
+                    <button disabled={page === lastPage} className={page === lastPage ? "disabled" : ""} onClick={() => onPageChange && onPageChange(lastPage)}>
                         <span className="visually-hidden">{paginationButtonsTexts[3]}</span>
                         <Icon name="AMA-LastPage-Solid" />
                     </button>
-                </div>
+                </nav>
             </div>}
         </div>
     );

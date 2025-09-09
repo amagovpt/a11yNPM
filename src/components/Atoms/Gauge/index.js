@@ -69,8 +69,8 @@ const Gauge = ({ darkTheme, percentage, title, screenReaderTitle, type }) => {
         width="200"
         height="220"
         role="img"
+        aria-label={screenReaderTitle || `${type === "100" ? animatedPercentage*10 + "%" : animatedPercentage}`}
       >
-        <title>{screenReaderTitle}</title>
         <path
           className="grey"
           d="M55,90 A55,55 0 1,1 140,90"

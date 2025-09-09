@@ -3,15 +3,15 @@ import "./style.css";
 
 import { Gauge } from "../../Atoms/Gauge";
 
-const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, subtitle, oldestPage, newestPage, gaugeTitle, gaugeDescription, gaugeType, buttons }) => {
-
+const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, subtitle, oldestPage, newestPage, gaugeTitle, gaugeDescription, gaugeType, buttons, showGauge = true, tag="h2" }) => {
+    const Tag = tag;
     // Theme
     const theme = darkTheme === "dark" ? "dark" : ""
 
     // Normal stats with Value (Title) and description (Subtitle)
     const normalExtraStats = (value, subtitle, index) => {
         return (
-            <div key={index} className="d-flex flex-column margin_mobile">
+            <div key={index} className="d-flex flex-column justify-content-center align-items-center item-last margin_mobile">
                 <p className="bold">{value}</p>
                 <span className="ama-typography-body">{subtitle}</span>
             </div>
@@ -35,7 +35,7 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
                     <span className="ama-typography-body">{object.subtitle}</span>
                 </div>
                 <div>
-                    <span role="text" className="visually-hidden">{value} {object.subtitle } {object.subtitle2} {`${!first ? percentage + "%" : ""}`}</span>
+                    <span className="visually-hidden">{value} {object.subtitle } {object.subtitle2} {`${!first ? percentage + "%" : ""}`}</span>
                 </div>
             </div>
 
@@ -46,11 +46,11 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
         <div className={`${theme} ama d-flex flex-column section_container py-4 m-0`}>
             {/* Web version */}
             <div className="grid_container">
-                <h2 className="bold d-flex flex-column">
+              {showGauge &&  <Tag className="bold d-flex flex-column">
                     <span>{title}</span>
-                    <span className="ama-typography-body">{subtitle}</span>
-                </h2>
-                <div className="mb-3 second_column ps-4">
+                    <span className="ama-typogra    phy-body">{subtitle}</span>
+                </Tag>}
+              {showGauge &&  <div className="mb-3 second_column ps-4">
                     <div className="d-flex flex-column" aria-label={` ${oldestPage} ${stats.oldestPage}`}>
                         <span className="ama-typography-body bold mb-1">{oldestPage}</span>
                         <span className="ama-typography-body">{stats.oldestPage}</span>
@@ -59,13 +59,13 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
                         <span className="ama-typography-body bold mb-1">{newestPage}</span>
                         <span className="ama-typography-body">{stats.recentPage}</span>
                     </div>
-                </div>
-                <div className="second_row">
-                    <Gauge percentage={stats.score} title={gaugeTitle} darkTheme={darkTheme} screenReaderTitle={gaugeDescription} type={gaugeType} />
-                </div>
+                </div>}
+                {showGauge && <div className="second_row">
+               <Gauge percentage={stats.score} title={gaugeTitle} darkTheme={darkTheme} screenReaderTitle={gaugeDescription} type={gaugeType} />
+                </div>}
                 {/* doubleRow checks if its just one row os stats or two */}
-                <div className={`last_column px-3 ${doubleRow ? "flex-column" : ""}`}>
-                    {doubleRow ?
+                <div className={`last_column ${showGauge ? "" : "last_column_no_gauge "}px-3 ${doubleRow ? "flex-column" : ""}`}>
+                    {doubleRow  ?
                         <>
                             <div className="d-flex justify-content-around w-100 align-items-center py-4 first">
                                 {stats.statsTable.map((stat, index) => {
@@ -84,6 +84,7 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
                         : stats.statsTable.map((stat, index) => {
                             return normalExtraStats(stat, statsTitles[index], index)
                         })}
+                        
                 </div>
             </div>
 
@@ -94,7 +95,7 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
                     <span className="ama-typography-body">{subtitle}</span>
                 </div>
                 <div className="row second_row mb-4">
-                    <Gauge percentage={stats.score} title={gaugeTitle} screenReaderTitle={gaugeDescription} type={gaugeType} />
+                      <Gauge percentage={stats.score} title={gaugeTitle} screenReaderTitle={gaugeDescription} type={gaugeType} />
                 </div>
                 <div className="row d-flex flex-column mb-4">
                     <div className="d-flex flex-column mb-2">

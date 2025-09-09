@@ -15,6 +15,8 @@ export * from "./Atoms/InputSearch";
 export * from "./Atoms/TextArea";
 export * from "./Atoms/RadioGroup";
 export * from "./Atoms/CheckGroup";
+export * from "./Atoms/Select";
+export * from "./Atoms/MultiSelect";
 
 // MOLECULES
 export * from "./Molecules/Tabs";

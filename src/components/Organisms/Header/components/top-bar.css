@@ -10,15 +10,30 @@ header.ama .top-bar button {
 header.ama .top-bar .d-flex.justify-content-between {
   flex-direction: column-reverse;
 }
+header.ama .top-bar-item {
+  background-color: var(--ama-color-brand-primary);
+}
+
+header.ama .top-bar-item button,
+header.ama #flushHeading span {
+  color: var(--ama-color-text-blue) !important;
+
+}
+
+
+header.ama .top-bar-item button:hover,
+header.ama .top-bar-item span:hover{
+  color: white;
+
+}
 
 header.ama .top-bar .btn-ecossistema {
-  color: var(--ama-color-brand-primary);
   text-decoration: none;
   text-align: start;
 }
 
 header.ama #accordionBtn:hover {
-  color: var(--ama-color-blue-600) !important;
+  color:white !important;
 }
 
 header.ama #accordionBtn:focus {
@@ -30,7 +45,7 @@ header.ama #accordionBtn:focus {
 
 header.ama .btn-ecossistema .icon-ed-menu-dots {
   padding-right: 10px;
-  font-size: 28px;
+  font-size: 1.75rem;
 }
 
 header.ama .btn-ecossistema span:nth-child(2) {
@@ -47,14 +62,14 @@ header.ama .language-mode {
   justify-content: center;
   gap: 0px !important;
   color: var(--ama-color-brand-primary);
-  font-size: 16px;
+  font-size: 1rem;
   text-decoration: none;
   border: 0px !important;
 }
 
 header.ama .dark-mode:hover,
 header.ama .language-mode:hover {
-  color: var(--ama-color-blue-600) !important;
+  color: white!important;
 }
 
 header.ama .dark-mode:focus,
@@ -67,7 +82,7 @@ header.ama .language-mode:focus {
 
 header.ama .dark-mode .icon-dark,
 header.ama .language-mode .icon-lang {
-  font-size: 20px;
+  font-size: 1.25rem;
   padding-left: 10px;
 }
 

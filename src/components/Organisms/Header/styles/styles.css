@@ -4,7 +4,7 @@ header.ama .skip-to-content {
 
 header.ama .logo .title_h1 {
   color: var(--ama-color-brand-primary);
-  font-size: 26px;
+  font-size: 1.625rem;
 }
 
 header.ama p.logo  {
@@ -37,7 +37,7 @@ header.ama .skip-to-content-link:focus {
 }
 
 header.ama .text-primary {
-  color: var(--ama-color-brand-primary) !important;
+  color: var(--ama-color-blue) !important;
 }
 
 header.ama .widgets-bar {
@@ -97,7 +97,7 @@ header.ama .menu-hamburger {
 }
 
 header.ama .menu-hamburger span {
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 /* Dark Theme */

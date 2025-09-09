@@ -33,6 +33,26 @@ export default {
       },
     },
   },
+  argTypes: {
+    tag: {
+      control: 'text',
+      description: 'Tag HTML usada para o título',
+      type: { name: 'string', required: false },
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'h2' },
+      },
+    },
+    showGauge: {
+      control: 'boolean',
+      description: 'Exibe o gauge de pontuação média',
+      type: { name: 'boolean', required: false },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    }
+  },
 };
 
 export const HeaderStatistics = (args) => {
@@ -50,5 +70,6 @@ HeaderStatistics.args = {
   newestPage: "Avaliação mais recente de uma página:",
   gaugeTitle: ["Pontuação média"],
   statsTitles: statsTitles,
-  stats: directoriesStats
+  stats: directoriesStats,
+  tag: "h2",
 }

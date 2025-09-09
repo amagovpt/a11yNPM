@@ -1,0 +1,71 @@
+.ama-select-atom { 
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ama-select-label {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ama-select-input {
+  height: 54px;
+  padding: 6px 12px;
+  border: 2px solid var(--ama-color-brand-primary) !important;
+  border-radius: 4px;
+  font-size: 15px;
+  margin: 8px 0 20px;
+}
+
+.ama-select-label.dark {
+  color:  white !important;
+}
+
+.ama-select-atom .ama-select-input.dark{
+  background-color: transparent !important;
+  border-color: var(--ama-color-text-blue) !important;
+  color: var(--ama-color-text-blue) !important;
+}
+
+.ama-select-input.dark option {
+  background: var(--ama-color-background-dark-darker) !important;
+}
+
+/* Validation Styles */
+.ama-select-atom .ama-select-input.is-invalid {
+  border-color: var(--ama-color-red-500) !important;
+}
+
+.ama-select-atom .select-error-feedback {
+  color: var(--ama-color-red-500);
+  font-size: 1em;
+  font-weight: 700;
+  margin-top: -0.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.ama-select-atom .required-indicator {
+  color: var(--ama-color-red-500);
+  font-weight: 700;
+}
+
+/* Focus states for validation */
+.ama-select-atom .ama-select-input:focus {
+  box-shadow: 0 0 0 3px var(--ama-color-yellow-300) !important;
+}
+
+.ama-select-atom .ama-select-input.is-invalid:focus {
+  box-shadow: 0 0 0 3px var(--ama-color-red-300) !important;
+}
+
+/* Dark theme validation styles */
+.ama-select-atom.dark .required-indicator {
+  color: var(--ama-color-red-400);
+}
+
+.ama-select-atom.dark .select-error-feedback {
+  color: var(--ama-color-red-400);
+}
+  

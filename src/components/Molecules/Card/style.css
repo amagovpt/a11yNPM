@@ -1,25 +1,18 @@
 .card-ama {
-    width: 245px;
-    height: 114px;
-    box-shadow: 4px 4px 7.7px -5px rgba(0, 0, 0, 0.09);
-    border: 2px solid var(--ama-color-brand-primary);
+    align-items: center;
+    background-color: #fff;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    gap: 10px;
+    height: 80px;
     justify-content: center;
-    gap: 40px;
-    padding: 30px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    background-color: white;
+    width: 11vw;
+    background-color: var(--ama-color-blue-0);
 }
 
-.card-ama:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-.card-icon-ama {
-    margin-bottom: 12px;
+.card-ama-list ul {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
 }
 
 
@@ -33,20 +26,20 @@
 }
 
 .card-title-ama {
-    font-size: 40px;
+    font-size: 1.25rem;
     font-weight: bolder;
 }
 
 .card-subtitle-ama {
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 .card-icon-ama i {
     color: var(--ama-color-brand-primary);
-    font-size: 40px;
-    padding:15px;
+    font-size: 1.875rem;
+    padding: 5px;
     border-radius: 8px;
-    background-color: var( --ama-color-blue-0);
+    background-color: var(--ama-color-blue-0);
 }
 
 .card-content-ama {
@@ -62,8 +55,18 @@
     color: var(--ama-color-text-blue);
 }
 
-.card-ama.dark span, .card-ama.dark i{
- color: var(--ama-color-text-blue);
- background-color: transparent;
+.card-ama.dark span,
+.card-ama.dark i {
+    color: var(--ama-color-text-blue);
+    background-color: transparent;
 }
 
+.card-ama-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}

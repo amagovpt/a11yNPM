@@ -18,8 +18,8 @@ export default {
 const Template = (args) => {
     const [activeItem, setActiveItem] = useState(args.activeItem);
 
-    const handleMenuItemClick = (id) => {
-        setActiveItem(id);
+    const handleMenuItemClick = (obj) => {
+        setActiveItem(obj);
     };
 
     return (
@@ -35,7 +35,16 @@ export const Default = Template.bind({});
 Default.args = {
     menuItems: [
         { id: "home", label: "Home", icon: "AMA-Casa-Line", url: "/" },
-        { id: "analytics", label: "Categorias", icon: "AMA-MarcadorGrande-Line", url: "/" },
+        { 
+            id: "analytics", 
+            label: "Categorias", 
+            icon: "AMA-MarcadorGrande-Line", 
+            url: "/",
+            submenu: [
+                { id: "cat1", label: "Categoria 1", icon: "AMA-Pasta-Line", url: "/cat1" },
+                { id: "cat2", label: "Categoria 2", icon: "AMA-Pasta-Line", url: "/cat2" }
+            ]
+        },
         { id: "settings", label: "Diretórios", icon: "AMA-Pasta-Line", url: "/" },
         { id: "profile", label: "Utilizadores", icon: "AMA-Casa-Line", url: "/" },
         { id: "entity", label: "Entidades", icon: "AMA-Edificio-Line", url: "/" },

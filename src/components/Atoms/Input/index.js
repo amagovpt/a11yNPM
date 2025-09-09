@@ -26,6 +26,7 @@ const Input = ({ darkTheme, upload, label, type, placeholder, error, id, showPas
             className={"align-self-center show_pass"}
             variant={"secondary"}
             text={""}
+            
             aria-label={!showPass ? showPassTextAria : hidePassTextAria}
             iconRight={<Icon darkTheme={theme} name={!showPass ? "AMA-Invisible-Solid" : "AMA-Visible-Line"} />} 
             onClick={() => setShowPass(!showPass)}

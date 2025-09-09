@@ -5,7 +5,7 @@
 }
 
 .ama.section_container .margin_mobile {
-    font-size: 28px !important;
+    font-size: 1.75rem !important;
 }
 
 .ama.section_container .second_column {
@@ -30,7 +30,10 @@
 .ama.section_container .grid_container_mobile {
     display: none;
 }
-
+.last_column_no_gauge{
+    width: 500px;
+    padding: 30px;
+}
 .ama.section_container .first {
     border-bottom: 1px solid var(--ama-color-grey-50);
 }

@@ -11,16 +11,44 @@ const Template = (args) => <Card {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-    title: "Diretórios",
-    subtitle: "37",
-    icon: "AMA-Pasta-Line",
-    darkTheme: false,
+    itemsList: [
+        {
+            title: "Diretórios",
+            subtitle: "37",
+            icon: "AMA-Pasta-Line",
+        },
+        {
+            title: "Arquivos",
+            subtitle: "12",
+            icon: "AMA-Paginas-Line",
+        },
+        {
+            title: "Diretórios",
+            subtitle: "37",
+            icon: "AMA-Pasta-Line",
+        },
+    ],
+    darkTheme: false
 };
 
 export const DarkTheme = Template.bind({});
 DarkTheme.args = {
-    title: "Arquivos",
-    subtitle: "12",
-    icon: "AMA-Paginas-Line",
+    itemsList: [
+        {
+            title: "Arquivos",
+            subtitle: "12",
+            icon: "AMA-Paginas-Line",
+        },
+        {
+            title: "Diretórios",
+            subtitle: "37",
+            icon: "AMA-Pasta-Line",
+        },
+        {
+            title: "Diretórios",
+            subtitle: "37",
+            icon: "AMA-Pasta-Line",
+        },
+    ],
     darkTheme: true,
 };

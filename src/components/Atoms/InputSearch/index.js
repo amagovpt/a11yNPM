@@ -49,7 +49,11 @@ const InputSearch = ({
         onChange={handleOnChange}
         onKeyDown={handleOnKeyDown}
       />
-      <Button variant="outline-secondary" onClick={handleOnSearch}>
+      <Button 
+        variant="outline-secondary" 
+        onClick={handleOnSearch}
+        aria-label="Pesquisar"
+      >
         <Icon name="AMA-Pesquisa3-Line" />
       </Button>
     </InputGroup>

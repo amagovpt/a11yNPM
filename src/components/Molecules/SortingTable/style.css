@@ -159,6 +159,11 @@
     text-decoration: none;
 }
 
+.ama.sorting_table_responsive .sorting_table caption {
+    font-size: 1.25rem;
+    color: var(--ama-color-text-black);
+}
+
 .ama.sorting_table_responsive .sorting_table .checkbox input[type=checkbox] {
     width: 18px;
     height: 18px;

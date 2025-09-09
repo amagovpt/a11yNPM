@@ -34,7 +34,7 @@ export function WidgetBar({ description, logo, title, title2, changeTheme, chang
                 <>
                   {homePage ? 
                     <h1 className="logo">
-                      <img src={logo} alt="accessMonitor" lang="en" />
+                      <img src={logo} alt="Logotipo da AMA" lang="pt" />
                     </h1>
                   : 
                     <p className="logo">
@@ -42,7 +42,7 @@ export function WidgetBar({ description, logo, title, title2, changeTheme, chang
                         href={linkTo}
                         title={title}
                       >
-                        <img src={logo} alt="accessMonitor" lang="en" />
+                        <img src={logo} alt="Logotipo da AMA" lang="pt" />
                       </a>
                     </p>
                   }

@@ -26,17 +26,17 @@
 
 .ama.btn.btn-lg {
   height: 50px;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .ama.btn.btn-md {
   height: 42px;
-  font-size: 16px;
+  font-size: 1rem;
 }
 
 .ama.btn.btn-sm {
   height: 32px;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 

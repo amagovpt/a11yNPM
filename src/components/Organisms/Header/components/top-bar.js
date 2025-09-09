@@ -21,11 +21,10 @@ export function TopBar({darkTheme, changeTheme, changeLanguage, lngTexts}) {
 
   return (
     <>
-      <div className="top-bar py-1">
+      <div className="top-bar">
         <div className="accordion accordion-flush" id="accordionTopBar">
-          <div className="container">
-            <div className="d-flex justify-content-between flex-row-reverse">
-              <div className="d-flex flex-row gap-4">
+            <div className="container d-flex justify-content-between flex-row-reverse top-bar-item py-1">
+              <div className="d-flex flex-row gap-4 ">
                 <button
                   className="btn btn-link dark-mode p-1 d-flex align-items-center"
                   id="darkModeBtn"
@@ -85,6 +84,7 @@ export function TopBar({darkTheme, changeTheme, changeLanguage, lngTexts}) {
                 </button>
               </div>
             </div>
+          <div className="container">
 
             <div
               data-bs-parent="#accordionTopBar"
