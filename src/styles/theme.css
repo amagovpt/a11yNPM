@@ -11,6 +11,7 @@
   
   --ama-color-text-gray: #333333;
   --ama-color-text-blue: #B6DCF6;
+  --ama-color-text-blue-darker: #557b95;
   --ama-color-text-blue-light: #E9F6FF;
   --ama-color-system-warning: #FFC107;
   --ama-color-system-error: #DC3545;
@@ -101,6 +102,16 @@ body {
   font-family: "Lato", sans-serif !important;
   text-transform: none;
 }
+
+body a {
+  color: var(--ama-color-brand-primary) !important;
+}
+
+body main.main_dark a {
+  color: var(--ama-color-text-blue) !important;
+}
+
+
 
 button {
   font-family: "Lato", sans-serif;
@@ -363,7 +374,6 @@ h6 {
   font-weight: normal !important;
   font-size: 1rem !important;
   line-height: normal !important;
-  letter-spacing: -0.32px !important;
   text-decoration: none !important;
   margin-bottom: 0px;
   text-transform: none !important;

@@ -55,10 +55,10 @@ const tabs2 = [
 ];
 
 export const TabHozrizontal = (args) => {
-  return <Tabs {...args} tabs={tabs} defaultActiveKey={"tab1"} vertical={false} />;
+  return <Tabs {...args} title="Tab Horizontal" tabs={tabs} defaultActiveKey={"tab1"} vertical={false} />;
 };
 
 
 export const TabVertical = (args) => {
-  return <Tabs {...args} tabs={tabs2} defaultActiveKey={"tab1"} vertical={true} />;
+  return <Tabs {...args} title="Tab Vertical" tabs={tabs2} defaultActiveKey={"tab1"} vertical={true} />;
 };

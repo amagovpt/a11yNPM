@@ -83,6 +83,47 @@
 .ama.tabs-container.vertical-tabs {
   display: grid;
   grid-template-columns: 300px 1fr;
+  gap: 20px;
+}
+
+/* Mobile responsive: stack vertically */
+@media (max-width: 768px) {
+  .ama.tabs-container.vertical-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .ama.tabs-container.vertical-tabs .nav-tabs {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: var(--ama-color-background-light-darker) !important;
+    border-bottom: 1px solid var(--ama-color-grey-100);
+  }
+
+  .ama.tabs-container.vertical-tabs .nav-tabs .nav-link {
+    font-size: 1em;
+    font-weight: 400;
+    flex: 1;
+    text-align: center;
+    min-width: auto;
+    justify-content: center;
+    border-right: none;
+  }
+
+  .ama.tabs-container.vertical-tabs .nav-tabs .nav-link.active {
+    background-color: var(--ama-color-background-light-darker);
+    color: var(--ama-color-brand-primary) !important;
+    border-right: none;
+    border-bottom: 5px solid var(--ama-color-brand-primary);
+  }
+
+  .ama.tabs-container.vertical-tabs .tabs_info_container {
+    margin-left: 0;
+  }
 }
 
 .ama.tabs-container.vertical-tabs .tabs_info_container {
@@ -103,23 +144,31 @@
   width: 100%;
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
-  .ama.tabs-container .nav-tabs {
+/* Small mobile devices - horizontal tabs only */
+@media (max-width: 480px) {
+  .ama.tabs-container:not(.vertical-tabs) .nav-tabs {
     display: flex;
     flex-direction: column;
   }
 
-  .ama.tabs-container .nav-tabs .nav-link {
+  .ama.tabs-container:not(.vertical-tabs) .nav-tabs .nav-link {
     display: flex;
     flex-direction: column;
     width: 100% !important;
     align-items: flex-start !important;
+    text-align: left;
   }
 
-  .ama.tabs-container .nav-tabs .nav-link.active {
+  .ama.tabs-container:not(.vertical-tabs) .nav-tabs .nav-link.active {
     color: var(--ama-color-background-white) !important;
     background-color: var(--ama-color-brand-primary);
     border: 0;
+  }
+
+  /* Vertical tabs on very small screens - keep horizontal layout but smaller */
+  .ama.tabs-container.vertical-tabs .nav-tabs .nav-link {
+    font-size: 0.875em;
+    padding: 0.5rem 0.75rem;
   }
 }
 

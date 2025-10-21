@@ -31,8 +31,8 @@
     display: none;
 }
 .last_column_no_gauge{
-    width: 500px;
-    padding: 30px;
+    width: 90%;
+    padding: 70px;
 }
 .ama.section_container .first {
     border-bottom: 1px solid var(--ama-color-grey-50);

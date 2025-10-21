@@ -118,7 +118,7 @@ function MultiSelect({
         <FormControl
           ref={inputRef}
           className={`border-0 flex-grow-1 multi-search-input ${theme}`}
-          placeholder={placeholder}
+          placeholder={""}
           value={search}
           disabled={disabled}
           onChange={(e) => {

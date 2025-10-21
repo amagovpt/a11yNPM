@@ -60,7 +60,7 @@ const en = {
   roleDescription: "accordion panel"
 }
 
-export function Header({description, language, title, title2, logo, darkTheme, changeTheme, changeLanguage, homePage, linkTo, ariaLabel, obsSpecial}) {
+export function Header({description, language, title, title2, logo, darkTheme, changeTheme, changeLanguage, homePage, linkTo, ariaLabel, obsSpecial, altLogo = "Logotipo da AMA" }) {
   const theme = darkTheme === "dark" ? "dark" : ""
 
   const lngTexts = language === "en" ? en : pt
@@ -94,6 +94,7 @@ export function Header({description, language, title, title2, logo, darkTheme, c
         linkTo={linkTo}
         lngTexts={lngTexts}
         obsSpecial={obsSpecial}
+        altLogo={altLogo}
       />
     </header>
   );

@@ -2,6 +2,14 @@ header.ama .skip-to-content {
   background: var(--ama-color-background-white);
 }
 
+header.ama a{
+  color: var(--ama-color-brand-primary) !important;
+}
+
+header.ama.dark a{
+  color: var(--ama-color-text-blue) !important;
+}
+
 header.ama .logo .title_h1 {
   color: var(--ama-color-brand-primary);
   font-size: 1.625rem;
@@ -13,6 +21,7 @@ header.ama p.logo  {
 
 header.ama .skip-to-content-link {
   position: absolute;
+  left: -9999px;
   width: 1px;
   height: 1px;
   margin: -1px;
@@ -20,11 +29,12 @@ header.ama .skip-to-content-link {
   white-space: nowrap;
   border: 0;
   color: var(--ama-color-brand-primary) !important;
-  opacity: 0;
+  pointer-events: none;
 }
 
 header.ama .skip-to-content-link:focus {
   position: static;
+  left: auto;
   overflow: visible !important;
   white-space: normal;
   outline: 1px solid var(--ama-color-blue-600);
@@ -34,10 +44,7 @@ header.ama .skip-to-content-link:focus {
   width: max-content;
   height: fit-content;
   opacity: 100;
-}
-
-header.ama .text-primary {
-  color: var(--ama-color-blue) !important;
+  pointer-events: auto;
 }
 
 header.ama .widgets-bar {
@@ -101,6 +108,12 @@ header.ama .menu-hamburger span {
 }
 
 /* Dark Theme */
+header.ama.dark .skip-to-content-link{
+  color: var(--ama-color-text-blue-darker) !important;
+}
+header.ama.dark .skip-to-content-link:focus {
+  outline-color: var(--ama-color-text-blue-darker) !important;
+}
 header.ama.dark .widgets-bar {
   background-color: var(--ama-color-brand-primary);
   color: var(--ama-color-background-white) !important;

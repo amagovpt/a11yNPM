@@ -33,10 +33,50 @@
     font-size: 25px;
 }
 
-.ama.sorting_table_responsive .sorting_table tr th i {
-    opacity: 0%;
+/* Sorting header button styles */
+.ama.sorting_table_responsive .sorting_table .sorting-header-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
+.ama.sorting_table_responsive .sorting_table .sorting-header-button:hover {
+    cursor: pointer !important;
+}
+
+.ama.sorting_table_responsive .sorting_table .sorting-header-button:focus {
+    outline: 2px solid var(--ama-color-brand-primary);
+    outline-offset: 2px;
+}
+
+.ama.sorting_table_responsive .sorting_table .sorting-header-button .arrow {
+    display: flex;
+    align-items: center;
+}
+
+.ama.sorting_table_responsive .sorting_table .sorting-header-button .arrow i {
+    opacity: 30%;
+    transition: opacity 0.2s ease;
+}
+
+.ama.sorting_table_responsive .sorting_table .sorting-header-button.show_icon .arrow i {
+    opacity: 100%;
+}
+
+.ama.sorting_table_responsive .sorting_table .sorting-header-button:hover .arrow i {
+    opacity: 70%;
+}
+
+/* Legacy support for non-button sorting headers */
 .ama.sorting_table_responsive .sorting_table tr th:hover {
     cursor: pointer !important;
 }
@@ -228,4 +268,13 @@
     background-color: var(--ama-color-background-dark-lighter);
     color: var(--table-pagination-select-text);
     border: 2px solid var(--ama-color-text-blue);
+}
+
+.ama.sorting_table_responsive.dark .sorting_table tfoot tr td {
+    background-color: var(--ama-color-background-dark-lighter) !important;
+    color: var(--ama-color-background-white) !important;
+}
+
+.ama.sorting_table_responsive.dark .sorting_table tfoot tr td a {
+    color: var(--ama-color-text-blue) !important;
 }

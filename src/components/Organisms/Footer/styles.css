@@ -1,5 +1,6 @@
 footer.ama {
   background-color: var(--ama-color-background-light-lighter);
+  border-top: 8px solid var(--ama-color-brand-primary);
 }
 
 footer.ama p {
@@ -22,7 +23,13 @@ footer.ama .footer-menu li a:hover {
   text-decoration: underline !important;
 }
 
+
+ul.footer-logos {
+  padding-left: 0;
+}
+
 footer.ama .footer-logos {
+
   text-align: center;
 }
 

@@ -11,10 +11,10 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
     // Normal stats with Value (Title) and description (Subtitle)
     const normalExtraStats = (value, subtitle, index) => {
         return (
-            <div key={index} className="d-flex flex-column justify-content-center align-items-center item-last margin_mobile">
-                <p className="bold">{value}</p>
+            <li key={index} className="d-flex flex-column justify-content-center align-items-center item-last margin_mobile">
+                <span className="bold">{value}</span>
                 <span className="ama-typography-body">{subtitle}</span>
-            </div>
+            </li>
         )
     }
 
@@ -46,25 +46,28 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
         <div className={`${theme} ama d-flex flex-column section_container py-4 m-0`}>
             {/* Web version */}
             <div className="grid_container">
+                <div className="first_row">
               {showGauge &&  <Tag className="bold d-flex flex-column">
                     <span>{title}</span>
-                    <span className="ama-typogra    phy-body">{subtitle}</span>
+                    <span className="ama-typography-body">{subtitle}</span>
                 </Tag>}
-              {showGauge &&  <div className="mb-3 second_column ps-4">
-                    <div className="d-flex flex-column" aria-label={` ${oldestPage} ${stats.oldestPage}`}>
-                        <span className="ama-typography-body bold mb-1">{oldestPage}</span>
-                        <span className="ama-typography-body">{stats.oldestPage}</span>
-                    </div>
-                    <div className="d-flex flex-column" aria-label={`${newestPage} ${stats.recentPage}`}>
-                        <span className="ama-typography-body bold mb-1">{newestPage}</span>
-                        <span className="ama-typography-body">{stats.recentPage}</span>
-                    </div>
-                </div>}
                 {showGauge && <div className="second_row">
                <Gauge percentage={stats.score} title={gaugeTitle} darkTheme={darkTheme} screenReaderTitle={gaugeDescription} type={gaugeType} />
                 </div>}
-                {/* doubleRow checks if its just one row os stats or two */}
-                <div className={`last_column ${showGauge ? "" : "last_column_no_gauge "}px-3 ${doubleRow ? "flex-column" : ""}`}>
+                </div>
+                <div className="second_row">
+              {showGauge &&  <ul className="mb-3 second_column ps-4">
+                    <li className="d-flex flex-column">
+                        <span className="ama-typography-body bold mb-1">{oldestPage}</span>
+                        <span className="ama-typography-body">{stats.oldestPage}</span>
+                    </li>
+                    <li className="d-flex flex-column">
+                        <span className="ama-typography-body bold mb-1">{newestPage}</span>
+                        <span className="ama-typography-body">{stats.recentPage}</span>
+                    </li>
+                </ul>}
+                   {/* doubleRow checks if its just one row os stats or two */}
+                   <div className={`last_column last_column_no_gauge px-3 ${doubleRow ? "flex-column" : ""}`}>
                     {doubleRow  ?
                         <>
                             <div className="d-flex justify-content-around w-100 align-items-center py-4 first">
@@ -81,11 +84,17 @@ const StatisticsHeader = ({ darkTheme, stats, statsTitles, doubleRow, title, sub
                                 })}
                             </div>
                         </>
-                        : stats.statsTable.map((stat, index) => {
+                        :
+                        <ul className="d-flex justify-content-around align-items-center w-100 px-1">
+                         {stats.statsTable.map((stat, index) => {
                             return normalExtraStats(stat, statsTitles[index], index)
                         })}
-                        
+                        </ul>
+                        }
+                     
                 </div>
+                </div>
+             
             </div>
 
             {/* Mobile version */}

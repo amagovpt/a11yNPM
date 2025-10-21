@@ -1,6 +1,6 @@
 import { Icon } from "../../../Atoms/Icon";
 import React from "react";
-export function WidgetBar({ description, logo, title, title2, changeTheme, changeLanguage, darkTheme, homePage, linkTo, lngTexts, obsSpecial }) {
+export function WidgetBar({ description, logo, title, title2, changeTheme, changeLanguage, darkTheme, homePage, linkTo, lngTexts, obsSpecial, altLogo}) {
   return (
     <div className="widgets-bar py-4">
       <div className="container">
@@ -34,7 +34,7 @@ export function WidgetBar({ description, logo, title, title2, changeTheme, chang
                 <>
                   {homePage ? 
                     <h1 className="logo">
-                      <img src={logo} alt="Logotipo da AMA" lang="pt" />
+                      <img src={logo} alt={altLogo} lang="pt" />
                     </h1>
                   : 
                     <p className="logo">
@@ -42,7 +42,7 @@ export function WidgetBar({ description, logo, title, title2, changeTheme, chang
                         href={linkTo}
                         title={title}
                       >
-                        <img src={logo} alt="Logotipo da AMA" lang="pt" />
+                        <img src={logo} alt={altLogo} lang="pt" />
                       </a>
                     </p>
                   }

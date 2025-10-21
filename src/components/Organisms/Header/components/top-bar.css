@@ -10,30 +10,19 @@ header.ama .top-bar button {
 header.ama .top-bar .d-flex.justify-content-between {
   flex-direction: column-reverse;
 }
-header.ama .top-bar-item {
-  background-color: var(--ama-color-brand-primary);
+
+header.ama .text-primary {
+  color: var(--ama-color-brand-primary) !important;
 }
 
-header.ama .top-bar-item button,
-header.ama #flushHeading span {
-  color: var(--ama-color-text-blue) !important;
-
-}
-
-
-header.ama .top-bar-item button:hover,
-header.ama .top-bar-item span:hover{
-  color: white;
-
-}
 
 header.ama .top-bar .btn-ecossistema {
   text-decoration: none;
   text-align: start;
 }
 
-header.ama #accordionBtn:hover {
-  color:white !important;
+header.ama #accordionBtn{
+  color: var(--ama-color-brand-primary) !important;
 }
 
 header.ama #accordionBtn:focus {
@@ -67,9 +56,11 @@ header.ama .language-mode {
   border: 0px !important;
 }
 
-header.ama .dark-mode:hover,
-header.ama .language-mode:hover {
-  color: white!important;
+
+header.ama .dark-mode span:hover,
+header.ama .language-mode span:hover {
+  color:var(--ama-color-brand-primary) !important;
+  text-decoration: underline !important;
 }
 
 header.ama .dark-mode:focus,
@@ -161,25 +152,33 @@ header.ama.dark .top-bar {
 header.ama.dark .top-bar .btn-ecossistema {
   color: var(--ama-color-text-blue);
 }
+header.ama.dark .top-bar .dark_mode_span {
+  color: var(--ama-color-text-blue) !important;
+}
+header.ama.dark .top-bar .dark_mode_span:hover {
+  color: var(--ama-color-background-white) !important;
+}
 
 header.ama.dark .top-bar #flushHeading span:not(.dark_mode_span) {
   color: var(--ama-color-background-white) !important;
 }
 
-header.ama.dark .top-bar .dark_mode_span,
-header.ama.dark .top-bar button i {
+header.ama.dark .text-primary, header.ama.dark span.ama-typography-body {
   color: var(--ama-color-text-blue) !important;
 }
 
+header.ama.dark .top-bar .text-primary:hover {
+  color: var(--ama-color-background-white) !important;
+}
+
+header.ama.dark span.ama-typography-body:hover {
+  color: var(--ama-color-background-white) !important;
+}
 header.ama.dark .top-bar .dark-mode,
 header.ama.dark .top-bar .language-mode {
   color: var(--ama-color-text-blue);
 }
 
-header.ama.dark .top-bar .dark-mode:hover,
-header.ama.dark .top-bar .language-mode:hover {
-  color: var(--ama-color-text-blue) !important;
-}
 
 header.ama.dark .top-bar .dark-mode:focus,
 header.ama.dark .top-bar .language-mode:focus {

@@ -434,6 +434,7 @@ export const sortingTable = (args) => {
       paginationButtonsTexts={paginationButtonsTexts}
       project={""}
       setCheckboxesSelected={setCheckboxesSelected}
+      paginationOptions={[50, 100, 250, 500]}
     />
   )
 };

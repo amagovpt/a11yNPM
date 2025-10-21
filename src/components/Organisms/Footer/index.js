@@ -6,7 +6,7 @@ export function Footer({ darkTheme }) {
   return (
     <footer className={`py-5 ama ${theme}`}>
       <div className="container">
-        <nav aria-label="Menu de rodapé do selo.usabilidade.gov.pt">
+        <nav aria-label="Menu de rodapé do selo.usabilidade.gov.pt" className="mb-4">
           <div className="menu-menu-de-rodape-container">
             <ul id="menu-menu-de-rodape" className="footer-menu ps-0 mb-1">
               <li
@@ -89,74 +89,14 @@ export function Footer({ darkTheme }) {
           </div>
         </nav>
 
-        <ul className="footer-logos mb-3">
+        <ul className="footer-logos mb-4">
           <li>
             <img
               decoding="async"
-              alt="República Portuguesa"
-              src="https://selo.leadershipbt.com/wp-content/uploads/2023/02/logo_republica_portuguesa.svg"
-              className="img-fluid p-3"
-              width="150"
-            />
-          </li>
-
-          <li>
-            <img
-              decoding="async"
-              alt="AMA – Agência para a Modernização Administrativa I.P."
-              src="https://selo.leadershipbt.com/wp-content/uploads/2023/02/logo_ama.svg"
-              className="img-fluid p-3"
-              width="150"
-            />
-          </li>
-
-          <li>
-            <img
-              decoding="async"
-              alt="eportugal"
-              src="https://selo.leadershipbt.com/wp-content/uploads/2023/02/logo_eportugal.svg"
-              className="img-fluid p-3"
-              width="150"
-            />
-          </li>
-
-          <li>
-            <img
-              decoding="async"
-              alt="usabilidade.gov.pt"
-              src="https://selo.leadershipbt.com/wp-content/uploads/2023/02/logo_usabilidade.svg"
-              className="img-fluid p-3"
-              width="150"
-            />
-          </li>
-
-          <li>
-            <img
-              decoding="async"
-              alt="COMPETE 2020 – Programa Operacional Competitividade e Internacionalização"
-              src="https://selo.leadershipbt.com/wp-content/uploads/2023/02/logo_compete.svg"
-              className="img-fluid p-3"
-              width="150"
-            />
-          </li>
-
-          <li>
-            <img
-              decoding="async"
-              alt="Portugal 2020"
-              src="https://selo.leadershipbt.com/wp-content/uploads/2023/02/logo_2020.svg"
-              className="img-fluid p-3"
-              width="150"
-            />
-          </li>
-
-          <li>
-            <img
-              decoding="async"
-              alt="União Europeia – Fundo Europeu de Desenvolvimento Regional"
-              src="https://selo.leadershipbt.com/wp-content/uploads/2023/02/logo_uniao_europeia.svg"
-              className="img-fluid p-3"
-              width="150"
+              alt="ARTE - Agência para a Reforma Tecnológica do Estado"
+              src="https://selo.usabilidade.gov.pt/wp-content/uploads/2025/09/arte-logo.png"
+              width="210"
+              className="img-fluid"
             />
           </li>
         </ul>
@@ -169,7 +109,7 @@ export function Footer({ darkTheme }) {
         </div>
         <div className="text-center">
           <p className="ama-typography-body">
-            © 2024 AMA - Agência para a Modernização Administrativa, I.P. Todos
+            © {(new Date()).getFullYear()} ARTE - Agência para a Reforma Tecnológica do Estado, I.P. Todos
             os Direitos Reservados.
           </p>
         </div>
