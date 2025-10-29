@@ -4,7 +4,7 @@ import { Accordion as BAccordion } from "react-bootstrap";
 
 const { Item, Header, Body } = BAccordion;
 
-const Accordion = ({ id, options, backgroundColor, textColor, table, ...props }) => {
+const Accordion = ({ id, options, backgroundColor, textColor, table, headingLevel = "h2", ...props }) => {
   const [open, setOpen] = useState(false);
 
   const accordionStyle = {
@@ -36,7 +36,7 @@ const Accordion = ({ id, options, backgroundColor, textColor, table, ...props })
     <BAccordion {...props} style={accordionStyle} onClick={() => toggleShow()}>
       {options.map((item) => (
         <Item key={item.id} eventKey={item.id}>
-          <Header id={item.id} style={headerStyle}>{item.title}</Header>
+          <Header as={headingLevel} id={item.id} style={headerStyle} >{item.title}</Header>
           <Body>{item.component}</Body>
         </Item>
       ))}

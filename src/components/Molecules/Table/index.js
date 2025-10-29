@@ -4,7 +4,7 @@ import { Accordion } from "../../Atoms/Accordion";
 
 import "./styles.css";
 
-const TableComponent = ({darkTheme, data, onClick, caption, col1, col2, col3, lvlTitle, imageTitlesCallback, ariaLabels}) => {
+const TableComponent = ({darkTheme, data, onClick, caption, col1, col2, col3, lvlTitle, headingLevel ="h2", imageTitlesCallback, ariaLabels}) => {
   const theme = darkTheme === "dark" ? "dark" : ""
 
   return (
@@ -33,7 +33,7 @@ const TableComponent = ({darkTheme, data, onClick, caption, col1, col2, col3, lv
                 <Icon name={option.iconName} />
               </td>
               <td className="mobile-options">
-                <Accordion options={[option]} flush={true} id={option.id} table={true} />
+                <Accordion options={[option]} flush={true} id={option.id} table={true} headingLevel={headingLevel} />
 
                 <div className="hide_desktop-screen">
                   <span className="ms-3 lvl_color">

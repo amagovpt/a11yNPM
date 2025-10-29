@@ -118,7 +118,11 @@ const SortingTable = (
             if (sort.property !== property) {
                 type = "asc"
             }
-            if (property && typeof valueA === "string") {
+            // Check if both values are strings - use string comparison
+            // Otherwise use numeric comparison
+            const isStringComparison = typeof valueA === "string" && typeof valueB === "string";
+            
+            if (property && isStringComparison) {
                 if (type === "asc") {
                     // Set the last property and type of sorting
                     setSort({ property: property, type: "desc" })
@@ -257,7 +261,8 @@ const SortingTable = (
                 const checkboxId = `checkbox_all_${Math.random().toString(36).substring(2, 15)}`
                 return (<th id={multiHeaders ? id : null} key={index} style={{ width: bigWidth }} rowSpan={nOfRows} colSpan={nOfColumns} scope="col" className={`${textCenter} checkbox px-4`}>
                     <label htmlFor={checkboxId}><span className="visually-hidden">{`${headerData.name}`}</span></label>
-                    <input aria-label={headerData.name} type="checkbox" id={checkboxId} value="all" checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')}></input>
+                    <input aria-label={headerData.name} aria-description="todos os registos" type="checkbox" id={checkboxId}  checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')} value="all"></input>
+
                 </th>)
         }
     }
@@ -294,6 +299,7 @@ const SortingTable = (
                             className={`${columnsOptions[key].class}`}
                             variant={columnsOptions[key].variant}
                             text={columnsOptions[key].text}
+                            disabled={columnsOptions[key].disabled}
                             onClick={button ? () => button(row, key) : null}
                         />
                     </td>)
@@ -383,9 +389,8 @@ const SortingTable = (
                     }
                 case "Checkbox":
                     return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ama-typography-body checkbox`}>
-                        <label aria-hidden="true" htmlFor={`checkbox_${row.id}`}><span className="visually-hidden">{dataList.length}</span></label>
-                        <input aria-label={row["Uri"]} type="checkbox" id={`checkbox_${row.id}`} name={row.id} value={`${row}`} checked={checkedItems.findIndex(item => item.id === row.id) !== -1} onChange={() => addCheckboxes(row)}></input>
-                    </td>)
+                                <input type="checkbox" id={`checkbox_${row.id}`} name={row.id} value={`${row}`} checked={checkedItems.findIndex(item => item.id === row.id) !== -1} onChange={() => addCheckboxes(row)}></input>
+                            </td>)
             }
         })
     }
