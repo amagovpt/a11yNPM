@@ -50,6 +50,7 @@ const Template = (args) => {
       {...args}
       value={value}
       onChange={setValue}
+      onInputChange={() => {}}
     />
   );
 };

@@ -23,7 +23,7 @@ const directoriesHeaders = [
 let columnsOptions = {
   id: { type: "Skip", center: false, bold: false, decimalPlace: false },
   rank: { type: "Checkbox", center: true, bold: false, decimalPlace: false },
-  name: { type: "Link", center: false, bold: false, decimalPlace: false, href: (row) => {
+  name: { type: "Link", center: false, bold: false, decimalPlace: false, isCheckboxLabel: true, href: (row) => {
     return "https://docs.wagtail.org/en/stable/getting_started/tutorial.html"
   } },
   entity: { type: "Skip", center: false, bold: false, decimalPlace: false },

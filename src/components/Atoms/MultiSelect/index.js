@@ -63,7 +63,7 @@ function MultiSelect({
     if (!value.includes(val)) {
       onChange([...value, val]);
       setSearch("");
-      setOpen(true);
+      setOpen(false);
     }
   };
 
@@ -124,7 +124,7 @@ function MultiSelect({
           onChange={(e) => {
             setSearch(e.target.value);
             setOpen(true);
-            onInputChange(e.target.value);
+            onInputChange?.(e.target.value);
           }}
           onFocus={() => !disabled && setOpen(true)}
         />

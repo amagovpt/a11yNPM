@@ -260,8 +260,8 @@ const SortingTable = (
             case "Checkbox":
                 const checkboxId = `checkbox_all_${Math.random().toString(36).substring(2, 15)}`
                 return (<th id={multiHeaders ? id : null} key={index} style={{ width: bigWidth }} rowSpan={nOfRows} colSpan={nOfColumns} scope="col" className={`${textCenter} checkbox px-4`}>
-                    <label htmlFor={checkboxId}><span className="visually-hidden">{`${headerData.name}`}</span></label>
-                    <input aria-label={headerData.name} aria-description="todos os registos" type="checkbox" id={checkboxId}  checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')} value="all"></input>
+                    <label htmlFor={checkboxId}><span className="visually-hidden">Selecionar registo</span></label>
+                    <input aria-description="todos os registos" type="checkbox" id={checkboxId}  checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')} value="all"></input>
 
                 </th>)
         }
@@ -329,9 +329,23 @@ const SortingTable = (
                 case "Link":
                     let href = columnsOptions[key].href ? columnsOptions[key].href : () => { return "" }
                     // Render a link
+                    // Check if this column should act as a label for the checkbox
+                    if (columnsOptions[key].isCheckboxLabel) {
+                        return columnsOptions[key].children ? 
+                            <td headers={columnsOptions[key].headers} key={index}><label htmlFor={`checkbox_${row.id}`}>{columnsOptions[key].children(row, row[key])}</label></td> : 
+                            <td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}><label htmlFor={`checkbox_${row.id}`}>{row[key]}</label></td>
+                    }
                     return columnsOptions[key].children ? <td headers={columnsOptions[key].headers} key={index}>{columnsOptions[key].children(row, row[key])}</td> : <td headers={columnsOptions[key].headers} key={index}><a href={href(row)} className="ama-typography-body bold">{row[key]}</a></td>
                 case "Text":
                     // Render normal text
+                    // Check if this column should act as a label for the checkbox
+                    if (columnsOptions[key].isCheckboxLabel) {
+                        if (columnsOptions[key].ariaLabel) {
+                            return (<td headers={columnsOptions[key].headers} key={index} aria-label={ariaLabels[row[key]]} className={`${center} ${bold} ama-typography-body`}><label htmlFor={`checkbox_${row.id}`}>{row[key]}</label></td>)
+                        } else {
+                            return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}><label htmlFor={`checkbox_${row.id}`}>{row[key]}</label></td>)
+                        }
+                    }
                     if (columnsOptions[key].ariaLabel) {
                         return (<td headers={columnsOptions[key].headers} key={index} aria-label={ariaLabels[row[key]]} className={`${center} ${bold} ama-typography-body`}>{row[key]}</td>)
                     } else {

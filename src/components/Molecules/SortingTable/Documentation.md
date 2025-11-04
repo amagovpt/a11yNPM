@@ -86,6 +86,7 @@ Neste objeto complementar, podemos verificar que os atributos que não queremos 
 - Cada célula pode depois ter o conteúdo centrado ou não baseado no que passamos em "center: ..."
 - Pode ter o texto ou números a negrito "bold: ..."
 - E no caso da pontuação, damos a possíbilidade do número ser renderizado com casas decimais ou não "decimalPlace: ..."
+- Para colunas de tipo "Text" ou "Link", pode incluir "isCheckboxLabel: true" para fazer com que o conteúdo da célula funcione como label para o checkbox da mesma linha, melhorando a acessibilidade
 
 <br>
 
