@@ -11,7 +11,7 @@ const directoriesHeaders = [
     {type: "SortingIcon", nRow: 2, name: "AMA-SeloDark-Line", description: "Com selo de usabilidade e acessibilidade", property: "stamp", justifyCenter: true},
     {type: "SortingText", nRow: 2, name: "Pontuação", property: "score", justifyCenter: true},
     {type: "SortingText", nRow: 2, name: "Páginas", property: "nPages", justifyCenter: true},
-    {id: "conformidade", type: "Text", name: "Páginas em conformidade*", property: "", justifyCenter: true, nCol: 3},
+    {id: "conformidade", type: "Text", nRow: 1, name: "Páginas em conformidade*", property: "", justifyCenter: true, nCol: 3},
   ],
   [
     {id: "A", type: "SortingText", name: "A", property: "A", justifyCenter: true},

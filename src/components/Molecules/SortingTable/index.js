@@ -39,6 +39,7 @@ const SortingTable = (
         project,
         ariaLabels,
         setCheckboxesSelected,
+        checkedItems = [],
         // New props for dynamic pagination
         totalItems, // total number of items (from endpoint)
         currentPage, // current page (controlled by parent)
@@ -56,135 +57,111 @@ const SortingTable = (
 
     //SORT
     const [sort, setSort] = useState({ property: null, type: "" });
+    
+    // Theme
+    const theme = darkTheme;
 
     //Multi Headers?
-    const multiHeaders = Array.isArray(headers[0])
+    const multiHeaders = headers && Array.isArray(headers[0])
 
-    //Remove internal state for page, lastPage, nItemsCurrent
-    // const [page, setPage] = useState(1);
-    // const [lastPage, setLastPage] = useState(1);
-    // const [nItemsCurrent, setNItemsCurrent] = useState(50);
-    // Instead, use props:
+    // Internal state for uncontrolled mode
+    const [internalPage, setInternalPage] = useState(1);
+    const [internalItemsPerPage, setInternalItemsPerPage] = useState(50);
+
+    // Determine if controlled or uncontrolled
+    const isControlled = typeof currentPage === 'number';
+
+    // Checkbox Handler
+    const addCheckboxes = (value) => {
+        if (!setCheckboxesSelected) return;
+        
+        if (value === 'all') {
+             if (checkedItems.length === dataList.length) {
+                setCheckboxesSelected([]);
+            } else {
+                setCheckboxesSelected(dataList);
+            }
+        } else {
+            const index = checkedItems.findIndex(item => item.id === value.id);
+            if (index === -1) {
+                setCheckboxesSelected([...checkedItems, value]);
+            } else {
+                const newChecked = [...checkedItems];
+                newChecked.splice(index, 1);
+                setCheckboxesSelected(newChecked);
+            }
+        }
+    }
+    
+    // Effective values
+    const page = isControlled ? currentPage : internalPage;
+    const nItemsCurrent = isControlled ? itemsPerPage : internalItemsPerPage;
+    
     const nAllItems = typeof totalItems === 'number' ? totalItems : (dataList ? dataList.length : 0);
-    const page = typeof currentPage === 'number' ? currentPage : 1;
-    const nItemsCurrent = typeof itemsPerPage === 'number' ? itemsPerPage : 50;
     const lastPage = Math.max(1, Math.ceil(nAllItems / nItemsCurrent));
+    
     // Generate pagination options dynamically if not provided
     const defaultPaginationOptions = [10, 25, 50, 100, 250, 500].filter(opt => opt < nAllItems);
     if (!defaultPaginationOptions.includes(nAllItems)) defaultPaginationOptions.push(nAllItems);
     const pageOptions = Array.isArray(paginationOptions) && paginationOptions.length > 0 ? paginationOptions : defaultPaginationOptions;
 
-    //Check
-    const [checkedItems, setCheckedItems] = useState([]);
+    // Handlers
+    const handlePageChange = (newPage) => {
+        if (!isControlled) setInternalPage(newPage);
+        if (onPageChange) onPageChange(newPage);
+    };
 
-    // Theme
-    const theme = darkTheme === "dark" ? "dark" : ""
-
-    // useEffect that gives the data to the table
-    // based on how many items per page is to be shown
-    useEffect(() => {
-        if (dataList && pagination) {
-            // setPage(1) // Removed
-            // setLastPage(Math.ceil(dataList.length / nItemsCurrent)) // Removed
-            // setList(dataList.slice(0, nItemsCurrent)) // Removed
-        } else {
-            // setList(dataList) // Removed
-        }
-    }, [nItemsCurrent, dataList])
-
-    // useEffect that runs after a page change
-    // Gives the new data to the table
-    useEffect(() => {
-        if (dataList && pagination) {
-            // const start = page === 1 ? 0 : (page-1) * nItemsCurrent // Removed
-            // const end = page === 1 ? nItemsCurrent : page * nItemsCurrent // Removed
-            // setList(dataList.slice(start, end)) // Removed
-        } else {
-            // setList(dataList) // Removed
-        }
-    }, [page])
-
-    // Property sorting function
     const sortByProperty = (property) => {
-        return dataList.slice().sort((a, b) => {
-            // Gets the values for the given property
-            const valueA = a[property]
-            const valueB = b[property]
-
-            // If its not the same property then the order is always ASCENDING
-            // If its a repeting property then the type being ASCENDING will make
-            // in the if's below to sort by DESCENDING
-            let type = sort.type
-            if (sort.property !== property) {
-                type = "asc"
-            }
-            // Check if both values are strings - use string comparison
-            // Otherwise use numeric comparison
-            const isStringComparison = typeof valueA === "string" && typeof valueB === "string";
-            
-            if (property && isStringComparison) {
-                if (type === "asc") {
-                    // Set the last property and type of sorting
-                    setSort({ property: property, type: "desc" })
-                    return (valueA).localeCompare((valueB));
-                } else {
-                    setSort({ property: property, type: "asc" })
-                    return (valueB).localeCompare((valueA));
-                }
-            } else {
-                if (type === "asc") {
-                    setSort({ property: property, type: "desc" })
-                    if (valueA === null && valueB !== null) return 1;  // null values come after numbers
-                    if (valueA !== null && valueB === null) return -1; // numbers come before null values
-                    if (valueA === null && valueB === null) return 0;  // both are null
-                    return parseFloat(valueA) - parseFloat(valueB);    // both are numbers
-                } else {
-                    setSort({ property: property, type: "asc" })
-                    if (valueA === null && valueB !== null) return -1; // null values come before numbers
-                    if (valueA !== null && valueB === null) return 1;  // numbers come after null values
-                    if (valueA === null && valueB === null) return 0;  // both are null
-                    return parseFloat(valueB) - parseFloat(valueA);    // both are numbers
-                }
-            }
-        })
-    }
-
-
-    const addCheckboxes = (checkedData) => {
-        if (checkedData !== 'all') {
-            let newCheckedItems = [...checkedItems];
-            const index = newCheckedItems.findIndex(item => item.id === checkedData.id);
-            if (index !== -1) {
-                newCheckedItems.splice(index, 1);
-            } else {
-                newCheckedItems.push(checkedData);
-            }
-            setCheckedItems(newCheckedItems);
-            setCheckboxesSelected(newCheckedItems);
-        } else {
-            let newCheckedItems = [];
-
-            if (checkedItems.length !== dataList.length) {
-                newCheckedItems = [...dataList];
-            }
-            setCheckedItems(newCheckedItems);
-            setCheckboxesSelected(newCheckedItems);
+        let direction = 'asc';
+        if (sort.property === property && sort.type === 'asc') {
+            direction = 'desc';
         }
-    }
+        setSort({ property, type: direction });
 
+        if (!dataList) return [];
 
+        return [...dataList].sort((a, b) => {
+            const valA = a[property];
+            const valB = b[property];
+            
+            if (valA === valB) return 0;
+            if (valA === null || valA === undefined) return 1;
+            if (valB === null || valB === undefined) return -1;
 
-    // Function that renders the Headers of the Table
-    // Receives an Object from the custom array that tells everything we need to render
+            // Check if both values are numbers or numeric strings
+            const numA = typeof valA === 'number' ? valA : parseFloat(valA);
+            const numB = typeof valB === 'number' ? valB : parseFloat(valB);
+            
+            // If both are valid numbers (including numeric strings), sort numerically
+            if (!isNaN(numA) && !isNaN(numB)) {
+                return direction === 'asc' ? numA - numB : numB - numA;
+            }
+            
+            // Otherwise, sort as strings
+            const strA = String(valA).toLowerCase();
+            const strB = String(valB).toLowerCase();
+            if (strA < strB) return direction === 'asc' ? -1 : 1;
+            if (strA > strB) return direction === 'asc' ? 1 : -1;
+            return 0;
+        });
+    };
+
+    const visibleData = dataList ? dataList.slice((page - 1) * nItemsCurrent, (page - 1) * nItemsCurrent + nItemsCurrent) : [];
+
+    const handleItemsPerPageChange = (newVal) => {
+        if (!isControlled) setInternalItemsPerPage(newVal);
+        if (onItemsPerPageChange) onItemsPerPageChange(newVal);
+    };
+
     const renderHeader = (headerData, index) => {
-        // If it specifies a nCol means that the header will be more than 1 column
-        const nOfColumns = headerData.nCol ? headerData.nCol : 1
-        const nOfRows = headerData.nRow ? headerData.nRow : 1
+        const nOfRows = headerData.rowSpan || headerData.nRow || 1
+        const nOfColumns = headerData.colSpan || headerData.nCol || 1
         const noPointer = !hasSort ? 'no_pointer' : ""
         const sameProp = sort.property === headerData.property
         const textCenter = headerData.justifyCenter ? "text-center" : ""
         const bigWidth = headerData.bigWidth ? headerData.bigWidth : "auto"
         const id = headerData.id ? headerData.id : null;
+
 
         switch (headerData.type) {
             case "Empty":
@@ -442,7 +419,7 @@ const SortingTable = (
 
                 <tbody>
                     {/* Render the data cells of the table */}
-                    {dataList && dataList.map((row, index) => {
+                    {visibleData && visibleData.map((row, index) => {
                         return (
                             <tr key={index}>
                                 {renderAttributes(row)}
@@ -473,7 +450,7 @@ const SortingTable = (
                         name="itemsPerPage"
                         id="itemsPerPage"
                         value={nItemsCurrent}
-                        onChange={(e) => onItemsPerPageChange && onItemsPerPageChange(Number(e.target.value))}
+                        onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
                     >
                         {pageOptions.map(opt => (
                             <option key={opt} value={opt}>{opt}</option>
@@ -484,19 +461,19 @@ const SortingTable = (
 
                 {/* Section with the pagination navigation */}
                 <nav className="pagination_section" aria-label="páginas" >
-                    <button disabled={page === 1} className={page === 1 ? "disabled button_dir" : "button_dir"} onClick={() => onPageChange && onPageChange(1)}>
+                    <button disabled={page === 1} className={page === 1 ? "disabled button_dir" : "button_dir"} onClick={() => handlePageChange(1)}>
                         <span className="visually-hidden">{paginationButtonsTexts[0]}</span>
                         <Icon name="AMA-LastPage-Solid" />
                     </button>
-                    <button disabled={page === 1} className={page === 1 ? "disabled button_dir" : " button_dir"} onClick={() => onPageChange && onPageChange(page - 1)}>
+                    <button disabled={page === 1} className={page === 1 ? "disabled button_dir" : " button_dir"} onClick={() => handlePageChange(page - 1)}>
                         <span className="visually-hidden">{paginationButtonsTexts[1]}</span>
                         <Icon name="AMA-SetaDir3-Solid" />
                     </button>
-                    <button disabled={page === lastPage} className={page === lastPage ? "disabled" : ""} onClick={() => onPageChange && onPageChange(page + 1)}>
+                    <button disabled={page === lastPage} className={page === lastPage ? "disabled" : ""} onClick={() => handlePageChange(page + 1)}>
                         <span className="visually-hidden">{paginationButtonsTexts[2]}</span>
                         <Icon name="AMA-SetaDir3-Solid" />
                     </button>
-                    <button disabled={page === lastPage} className={page === lastPage ? "disabled" : ""} onClick={() => onPageChange && onPageChange(lastPage)}>
+                    <button disabled={page === lastPage} className={page === lastPage ? "disabled" : ""} onClick={() => handlePageChange(lastPage)}>
                         <span className="visually-hidden">{paginationButtonsTexts[3]}</span>
                         <Icon name="AMA-LastPage-Solid" />
                     </button>
