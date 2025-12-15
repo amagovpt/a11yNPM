@@ -20,6 +20,7 @@ import { Button } from "../../Atoms/Button"
     project -> name of project so that it works in multiple projects
     ariaLabels -> translations for aria-labels to help read "A", "AA", "AAA"
     setCheckboxesSelected -> method to change checkboxes states
+    serverSidePagination -> If true, assumes dataList is already paginated by the server (no client-side slice)
 */
 const SortingTable = (
     {
@@ -47,6 +48,7 @@ const SortingTable = (
         onPageChange, // function(pageNumber) => void
         onItemsPerPageChange, // function(itemsPerPage) => void
         paginationOptions, // array of numbers for items per page
+        serverSidePagination = false, // if true, data is already paginated by server
         // Accessibility texts for sorting
         sortingTexts = {
             none: " Sem ordenação",
@@ -146,7 +148,11 @@ const SortingTable = (
         });
     };
 
-    const visibleData = dataList ? dataList.slice((page - 1) * nItemsCurrent, (page - 1) * nItemsCurrent + nItemsCurrent) : [];
+    // For server-side pagination, data is already paginated, so don't slice it
+    // For client-side pagination, slice the data to show only the current page
+    const visibleData = serverSidePagination 
+        ? (dataList || [])
+        : (dataList ? dataList.slice((page - 1) * nItemsCurrent, (page - 1) * nItemsCurrent + nItemsCurrent) : []);
 
     const handleItemsPerPageChange = (newVal) => {
         if (!isControlled) setInternalItemsPerPage(newVal);
@@ -237,9 +243,7 @@ const SortingTable = (
             case "Checkbox":
                 const checkboxId = `checkbox_all_${Math.random().toString(36).substring(2, 15)}`
                 return (<th id={multiHeaders ? id : null} key={index} style={{ width: bigWidth }} rowSpan={nOfRows} colSpan={nOfColumns} scope="col" className={`${textCenter} checkbox px-4`}>
-                    <label htmlFor={checkboxId}><span className="visually-hidden">Selecionar registo</span></label>
-                    <input aria-description="todos os registos" type="checkbox" id={checkboxId}  checked={Object.keys(checkedItems).length === dataList.length} onChange={() => addCheckboxes('all')} value="all"></input>
-
+                    <input type="checkbox" id={checkboxId} aria-label="selecionar registos" aria-description="selecionar todos os registos" checked={checkedItems.length === dataList.length} onChange={() => addCheckboxes('all')} value="all"></input>
                 </th>)
         }
     }
@@ -258,6 +262,11 @@ const SortingTable = (
     // the custom array will have the same exact properties and for each one will tell if its a Text or a Number or an Icon ...
     const renderAttributes = (row) => {
         return Object.keys(row).map((key, index) => {
+            // Safety check: skip if columnsOptions doesn't have this key
+            if (!columnsOptions || !columnsOptions[key]) {
+                return null;
+            }
+            
             let center = columnsOptions[key].center ? "text-center" : ""
             let bold = columnsOptions[key].bold ? "bold" : ""
             // Use the custom array to check the type of render to do
@@ -307,12 +316,14 @@ const SortingTable = (
                     let href = columnsOptions[key].href ? columnsOptions[key].href : () => { return "" }
                     // Render a link
                     // Check if this column should act as a label for the checkbox
+                    // When it's a link, we create an id for the link and use aria-labelledby on the checkbox
                     if (columnsOptions[key].isCheckboxLabel) {
+                        const linkId = `link_${row.id}_${key}`;
                         return columnsOptions[key].children ? 
-                            <td headers={columnsOptions[key].headers} key={index}><label htmlFor={`checkbox_${row.id}`}>{columnsOptions[key].children(row, row[key])}</label></td> : 
-                            <td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}><label htmlFor={`checkbox_${row.id}`}>{row[key]}</label></td>
+                            <td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`} >{columnsOptions[key].children(row, row[key])}</td> : 
+                            <td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`} ><a href={href(row)} className="ama-typography-body bold" id={linkId}>{row[key]}</a></td>
                     }
-                    return columnsOptions[key].children ? <td headers={columnsOptions[key].headers} key={index}>{columnsOptions[key].children(row, row[key])}</td> : <td headers={columnsOptions[key].headers} key={index}><a href={href(row)} className="ama-typography-body bold">{row[key]}</a></td>
+                    return columnsOptions[key].children ? <td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}>{columnsOptions[key].children(row, row[key])}</td> : <td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold}`}><a href={href(row)} className="ama-typography-body bold">{row[key]}</a></td>
                 case "Text":
                     // Render normal text
                     // Check if this column should act as a label for the checkbox
@@ -322,7 +333,7 @@ const SortingTable = (
                         } else {
                             return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}><label htmlFor={`checkbox_${row.id}`}>{row[key]}</label></td>)
                         }
-                    }
+                    }   
                     if (columnsOptions[key].ariaLabel) {
                         return (<td headers={columnsOptions[key].headers} key={index} aria-label={ariaLabels[row[key]]} className={`${center} ${bold} ama-typography-body`}>{row[key]}</td>)
                     } else {
@@ -379,9 +390,25 @@ const SortingTable = (
                         return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}>{row[key]}</td>)
                     }
                 case "Checkbox":
+                    // Find if any column is marked as checkbox label
+                    const labelColumn = Object.keys(columnsOptions).find(k => columnsOptions[k].isCheckboxLabel);
+                    const isLinkLabel = labelColumn && columnsOptions[labelColumn].type === "Link";
+                    const ariaLabelledBy = isLinkLabel ? `link_${row.id}_${labelColumn}` : undefined;
+                    
                     return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ama-typography-body checkbox`}>
-                                <input type="checkbox" id={`checkbox_${row.id}`} name={row.id} value={`${row}`} checked={checkedItems.findIndex(item => item.id === row.id) !== -1} onChange={() => addCheckboxes(row)}></input>
+                                <input 
+                                    type="checkbox" 
+                                    id={`checkbox_${row.id}`} 
+                                    name={row.id} 
+                                    value={`${row}`} 
+                                    checked={checkedItems.findIndex(item => item.id === row.id) !== -1} 
+                                    onChange={() => addCheckboxes(row)}
+                                    aria-labelledby={ariaLabelledBy}
+                                ></input>
                             </td>)
+                default:
+                    // Default case: render as plain text
+                    return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}>{row[key]}</td>)
             }
         })
     }
@@ -429,7 +456,7 @@ const SortingTable = (
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan={multiHeaders ? headers.map(header => header.length).reduce((a, b) => a + b, 0) : headers.length}>(*) Nota: conformidade para com as <a href="https://www.w3.org/TR/WCAG21/"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> do <abbr title="World Wide Web Consortium">W3C</abbr></a>.</td>
+                        <td colSpan={multiHeaders ? headers.map(header => header.length).reduce((a, b) => a + b, 0) : headers.length}>(*) Nota: conformidade para com as <a href="https://www.w3.org/TR/WCAG21/"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> do <abbr title="World Wide Web Consortium">W3C</abbr></a>.</td>
                     </tr>
                 </tfoot>
             </table>

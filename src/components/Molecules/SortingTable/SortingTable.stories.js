@@ -434,7 +434,8 @@ export const sortingTable = (args) => {
       paginationButtonsTexts={paginationButtonsTexts}
       project={""}
       setCheckboxesSelected={setCheckboxesSelected}
-      paginationOptions={[50, 100, 250, 500]}
+      checkedItems={checkboxesSelected}
+      paginationOptions={[10, 20, 50, 100, 250, 500]}
     />
   )
 };
@@ -444,4 +445,53 @@ sortingTable.args = {
   pagination: true,
   itemsPaginationTexts: itemsPaginationText,
   nItemsPerPageTexts: nItemsPerPageText
+}
+
+// Story with Text column as checkbox label (not a link)
+const simpleHeaders = [
+  {type: "Checkbox", name: "Selecionar", property: "select"},
+  {type: "Text", name: "Nome", property: "name"},
+  {type: "Text", name: "Email", property: "email"},
+  {type: "Text", name: "Função", property: "role"}
+]
+
+const simpleColumnsOptions = {
+  id: { type: "Skip", center: false, bold: false },
+  select: { type: "Checkbox", center: true, bold: false },
+  name: { type: "Text", center: false, bold: false, isCheckboxLabel: true },
+  email: { type: "Text", center: false, bold: false },
+  role: { type: "Text", center: false, bold: false }
+}
+
+const simpleDataRows = [
+  { id: 1, select: 1, name: "João Silva", email: "joao@example.com", role: "Administrador" },
+  { id: 2, select: 2, name: "Maria Santos", email: "maria@example.com", role: "Editor" },
+  { id: 3, select: 3, name: "Pedro Costa", email: "pedro@example.com", role: "Visualizador" }
+]
+
+export const checkboxWithTextLabel = (args) => {
+  const [data, setData] = useState(simpleDataRows)
+  const [checkboxesSelected, setCheckboxesSelected] = useState([])
+
+  return (
+    <SortingTable
+      {...args}
+      darkTheme={useDarkMode() ? "dark" : "light"}
+      headers={simpleHeaders}
+      setDataList={setData}
+      dataList={data}
+      columnsOptions={simpleColumnsOptions}
+      nextPage={() => null}
+      caption={"Tabela com checkbox e coluna de texto como label"}
+      paginationButtonsTexts={paginationButtonsTexts}
+      project={""}
+      setCheckboxesSelected={setCheckboxesSelected}
+      checkedItems={checkboxesSelected}
+    />
+  )
+}
+
+checkboxWithTextLabel.args = {
+  hasSort: true,
+  pagination: false
 }

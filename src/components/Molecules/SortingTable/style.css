@@ -159,14 +159,25 @@
     padding: .5em;
     width: 68px;
     height: 68px;
-    border: none;
-    color: var(--ama-color-grey-900);
-    background-color: var(--ama-color-background-light-darker);
+    border: 2px solid var(--ama-color-brand-secondary);
+    color: var(--ama-color-brand-secondary);
+    background-color: var(--ama-color-background-white);
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ama.sorting_table_responsive .pagination_section button:hover:not(.disabled) {
+    background-color: var(--ama-color-brand-secondary);
+    color: var(--ama-color-background-white);
+}
+
+.ama.sorting_table_responsive .pagination_section button:focus {
+    outline: 2px solid var(--ama-color-brand-primary);
+    outline-offset: 2px;
 }
 
 .ama.sorting_table_responsive .pagination_section button i {
-    color: var(--table-pagination-select-text);
+    color: currentColor;
 }
 
 .ama.sorting_table_responsive .pagination_section button.button_dir {
@@ -174,9 +185,11 @@
 }
 
 .ama.sorting_table_responsive .pagination_section button.disabled {
-    opacity: .3;
-    cursor: auto;
-}s
+    border-color: var(--ama-color-grey-300);
+    color: var(--ama-color-grey-500);
+    background-color: var(--ama-color-grey-50);
+    cursor: not-allowed;
+}
 
 .ama.sorting_table_responsive .sorting_table tr th.no_pointer,
 .ama.sorting_table_responsive .sorting_table tr th:hover.no_pointer {
@@ -266,8 +279,25 @@
 
 .ama.sorting_table_responsive .pagination.dark .pagination_section .selection {
     background-color: var(--ama-color-background-dark-lighter);
-    color: var(--table-pagination-select-text);
+    color: var(--ama-color-background-white);
     border: 2px solid var(--ama-color-text-blue);
+}
+
+.ama.sorting_table_responsive .pagination.dark .pagination_section button {
+    border-color: var(--ama-color-text-blue);
+    color: var(--ama-color-text-blue);
+    background-color: var(--ama-color-background-dark-lighter);
+}
+
+.ama.sorting_table_responsive .pagination.dark .pagination_section button:hover:not(.disabled) {
+    background-color: var(--ama-color-text-blue);
+    color: var(--ama-color-background-dark-darker);
+}
+
+.ama.sorting_table_responsive .pagination.dark .pagination_section button.disabled {
+    border-color: var(--ama-color-grey-500);
+    color: var(--ama-color-grey-400);
+    background-color: var(--ama-color-grey-700);
 }
 
 .ama.sorting_table_responsive.dark .sorting_table tfoot tr td {
