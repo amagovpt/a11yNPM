@@ -13,4 +13,4 @@ Nota: poderá igualmente vir a ser utilizado no:
 - [selo.usabilidade.gov.pt](https://selo.usabilidade.gov.pt)
 
 ---
-<p><small>2023 - 2026 &copyright; ARTE, I.P.</small></p>
+<p><small>2023/26 &copy; copyright - ARTE, I.P.</small></p>
