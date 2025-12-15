@@ -1,6 +1,6 @@
-# a11yMonitor
+# a11yNPM
 
-Biblioteca de componentes para servir as seguintes aplicações:
+Pipeline da Biblioteca de componentes do repositório NPM para servir as seguintes aplicações:
 
 - AccessMonitor;
 - MyMonitor;
@@ -13,4 +13,4 @@ Nota: poderá igualmente vir a ser utilizado no:
 - [selo.usabilidade.gov.pt](https://selo.usabilidade.gov.pt)
 
 ---
-<p><small>2023 &copyright; a11yMonitor - a nossa 1ª construção de um Design System <em lang="en">WCAG Compliance</em> - EUC - um repositório da Equipa de Usabilidade e Conteúdos da AMA, I.P.</small></p>
+<p><small>2023 - 2026 &copyright; ARTE, I.P.</small></p>
