@@ -1,5 +1,11 @@
 # @a12e/accessmonitor-ds
 
+## 1.0.7
+
+### Patch Changes
+
+- e4790ef: remove button to hide menu and improve accessibility
+
 ## 1.0.6
 
 ### Patch Changes
