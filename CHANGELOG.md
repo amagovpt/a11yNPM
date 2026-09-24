@@ -1,5 +1,11 @@
 # @a12e/accessmonitor-ds
 
+## 1.1.0
+
+### Minor Changes
+
+- d3721c2: remove tfoot
+
 ## 1.0.7
 
 ### Patch Changes
