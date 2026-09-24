@@ -97,7 +97,7 @@ const SortingTable = (
         if (onPageChange) onPageChange(newPage);
     };
 
-    const sortByProperty = (property) => {
+    const sortByProperty = (property, sortType = "auto") => {
         let direction = 'asc';
         if (sort.property === property && sort.type === 'asc') {
             direction = 'desc';
@@ -109,20 +109,28 @@ const SortingTable = (
         return [...dataList].sort((a, b) => {
             const valA = a[property];
             const valB = b[property];
-            
+
             if (valA === valB) return 0;
             if (valA === null || valA === undefined) return 1;
             if (valB === null || valB === undefined) return -1;
 
+            if (sortType === "date") {
+                const dateA = new Date(valA);
+                const dateB = new Date(valB);
+                if (!isNaN(dateA) && !isNaN(dateB)) {
+                    return direction === 'asc' ? dateA - dateB : dateB - dateA;
+                }
+            }
+
             // Check if both values are numbers or numeric strings
             const numA = typeof valA === 'number' ? valA : parseFloat(valA);
             const numB = typeof valB === 'number' ? valB : parseFloat(valB);
-            
+
             // If both are valid numbers (including numeric strings), sort numerically
             if (!isNaN(numA) && !isNaN(numB)) {
                 return direction === 'asc' ? numA - numB : numB - numA;
             }
-            
+
             // Otherwise, sort as strings
             const strA = String(valA).toLowerCase();
             const strB = String(valB).toLowerCase();
@@ -286,6 +294,38 @@ const SortingTable = (
                                 }
                             </span>
                             <span className="visually-hidden">{getSortStateText()}</span>
+                        </button>
+                    </th>
+                )
+            case "SortingDate":
+                const getSortStateDate = () => {
+                    if (!sameProp) return "none";
+                    return sort.type === "desc" ? "descending" : "ascending";
+                }
+                const getSortStateTextDate = () => {
+                    if (!sameProp) return sortingTexts.none;
+                    return sort.type === "desc" ? sortingTexts.descending : sortingTexts.ascending;
+                }
+                const sortingDateProps = hasColAndRowspan ? {
+                    rowSpan: nOfRows,
+                    colSpan: nOfColumns,
+                    scope: headerData.scope ? headerData.scope : "col"
+                } : {};
+                return (
+                    <th id={multiHeaders ? id : null} key={index} style={{ width: bigWidth }} {...sortingDateProps} aria-sort={getSortStateDate()}>
+                        <button
+                            type="button"
+                            className={`sorting-header-button ${sameProp ? 'show_icon' : ''}`}
+                            onClick={() => setDataList(sortByProperty(headerData.property, "date"))}
+                        >
+                            {headerData.name}
+                            <span className="arrow" aria-hidden="true">
+                                {sameProp ?
+                                    (sort.type === "desc" ? <Icon name="AMA-SetaBaixo-Line" /> : <Icon name="AMA-SetaCima-Line" />) :
+                                    <Icon name="AMA-SetaCima-Line" />
+                                }
+                            </span>
+                            <span className="visually-hidden">{getSortStateTextDate()}</span>
                         </button>
                     </th>
                 )
@@ -495,6 +535,12 @@ const SortingTable = (
                                     aria-labelledby={ariaLabelledBy}
                                 ></input>
                             </td>)
+                case "Date":
+                    const dateVal = row[key] ? new Date(row[key]) : null;
+                    const formattedDate = dateVal && !isNaN(dateVal)
+                        ? dateVal.toLocaleDateString('pt-PT')
+                        : row[key];
+                    return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}>{formattedDate}</td>)
                 default:
                     // Default case: render as plain text
                     return (<td headers={columnsOptions[key].headers} key={index} className={`${center} ${bold} ama-typography-body`}>{row[key]}</td>)
@@ -542,12 +588,12 @@ const SortingTable = (
                             </tr>
                         )
                     })}
-                </tbody>
-                <tfoot>
+                </tbody>{
+              /*  <tfoot>
                     <tr>
                         <td colSpan={multiHeaders ? headers.map(header => header.length).reduce((a, b) => a + b, 0) : headers.length}>(*) Nota: conformidade para com as <a href="https://www.w3.org/TR/WCAG21/"><abbr title="Web Content Accessibility Guidelines">WCAG</abbr> do <abbr title="World Wide Web Consortium">W3C</abbr></a>.</td>
                     </tr>
-                </tfoot>
+                </tfoot>*/}
             </table>
 
             {/* Pagination */}

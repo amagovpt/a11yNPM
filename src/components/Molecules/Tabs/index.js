@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "./styles.css";
 
@@ -8,16 +8,51 @@ const Tabs = ({ tabs, vertical, defaultActiveKey, onTabChange = () => {}, title,
   const titleId = `title-${Math.random().toString(36).substr(2, 9)}`;
   const panelId = `panel-${Math.random().toString(36).substr(2, 9)}`;
   const tabId = `panel-${Math.random().toString(36).substr(2, 9)}`;
+  const tabRefs = useRef([]);
 
   const handleTabClick = (eventKey) => {
     setActiveTab(eventKey);
     onTabChange(eventKey);
   };
 
-  const handleKeyDown = (event, eventKey) => {
+  const focusTabAt = (index) => {
+    const total = tabs.length;
+    if (total === 0) return;
+    let next = index;
+    let safety = total;
+    while (safety-- > 0 && tabs[next]?.disabled) {
+      next = (next + 1) % total;
+    }
+    const el = tabRefs.current[next];
+    if (el) {
+      el.focus();
+      handleTabClick(tabs[next].eventKey);
+    }
+  };
+
+  const handleKeyDown = (event, eventKey, index) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
       handleTabClick(eventKey);
+      return;
+    }
+
+    const nextKey = vertical ? "ArrowDown" : "ArrowRight";
+    const prevKey = vertical ? "ArrowUp" : "ArrowLeft";
+    const total = tabs.length;
+
+    if (event.key === nextKey) {
+      event.preventDefault();
+      focusTabAt((index + 1) % total);
+    } else if (event.key === prevKey) {
+      event.preventDefault();
+      focusTabAt((index - 1 + total) % total);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      focusTabAt(0);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      focusTabAt(total - 1);
     }
   };
 
@@ -31,18 +66,20 @@ const Tabs = ({ tabs, vertical, defaultActiveKey, onTabChange = () => {}, title,
 
     <div className={`tabs-container ama ${vertical ? "vertical-tabs" : ""}`}>
 
-      <div 
+      <div
         className={`nav-tabs ${vertical ? "vertical" : "horizontal"}`}
         role="tablist"
         aria-labelledby={"title_tab_list"}
+        aria-orientation={vertical ? "vertical" : "horizontal"}
         id={tablistId}
         >
         {tabs.map((tab, index) => (
           <button
           key={tab.eventKey}
+          ref={(el) => (tabRefs.current[index] = el)}
           className={`nav-link ${activeTab === tab.eventKey ? "active" : ""}`}
           onClick={() => handleTabClick(tab.eventKey)}
-          onKeyDown={(e) => handleKeyDown(e, tab.eventKey)}
+          onKeyDown={(e) => handleKeyDown(e, tab.eventKey, index)}
           role="tab"
           type="button"
             aria-selected={activeTab === tab.eventKey}
