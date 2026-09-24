@@ -11,6 +11,7 @@ const directoriesHeaders = [
     {type: "SortingIcon", nRow: 2, name: "AMA-SeloDark-Line", description: "Com selo de usabilidade e acessibilidade", property: "stamp", justifyCenter: true},
     {type: "SortingText", nRow: 2, name: "Pontuação", property: "score", justifyCenter: true},
     {type: "SortingText", nRow: 2, name: "Páginas", property: "nPages", justifyCenter: true},
+    {type: "SortingDate", nRow: 2, name: "Data", property: "date", justifyCenter: true},
     {id: "conformidade", type: "Text", nRow: 1, name: "Páginas em conformidade*", property: "", justifyCenter: true, nCol: 3},
   ],
   [
@@ -31,6 +32,7 @@ let columnsOptions = {
   stamp: { type: "Stamp", center: true, bold: false, decimalPlace: false },
   score: { type: "Number", center: true, bold: false, decimalPlace: true },
   nPages: { type: "Number", center: true, bold: false, decimalPlace: false },
+  date: { type: "Date", center: true, bold: false },
   A: { type: "Number", center: true, bold: false, decimalPlace: false, headers: "conformidade A" },
   AA: { type: "Number", center: true, bold: false, decimalPlace: false, headers: "conformidade AA" },
   AAA: { type: "Number", center: true, bold: false, decimalPlace: false, headers: "conformidade AAA" },
@@ -494,4 +496,49 @@ export const checkboxWithTextLabel = (args) => {
 checkboxWithTextLabel.args = {
   hasSort: true,
   pagination: false
+}
+
+const dateHeaders = [
+  { type: "SortingText", name: "Nome", property: "name" },
+  { type: "SortingDate", name: "Data de Publicação", property: "publishedAt", justifyCenter: true },
+  { type: "SortingDate", name: "Última Atualização", property: "updatedAt", justifyCenter: true },
+]
+
+const dateColumnsOptions = {
+  id: { type: "Skip", center: false, bold: false },
+  name: { type: "Text", center: false, bold: true },
+  publishedAt: { type: "Date", center: true, bold: false },
+  updatedAt: { type: "Date", center: true, bold: false },
+}
+
+const dateDataRows = [
+  { id: 1, name: "Documento A", publishedAt: "2023-03-15", updatedAt: "2024-11-01" },
+  { id: 2, name: "Documento B", publishedAt: "2021-07-22", updatedAt: "2023-05-10" },
+  { id: 3, name: "Documento C", publishedAt: "2024-01-08", updatedAt: "2024-12-20" },
+  { id: 4, name: "Documento D", publishedAt: "2020-11-30", updatedAt: "2022-08-14" },
+  { id: 5, name: "Documento E", publishedAt: "2022-04-05", updatedAt: "2024-06-03" },
+]
+
+export const sortingTableWithDates = (args) => {
+  const [data, setData] = useState(dateDataRows)
+
+  return (
+    <SortingTable
+      {...args}
+      darkTheme={useDarkMode() ? "dark" : "light"}
+      headers={dateHeaders}
+      setDataList={setData}
+      dataList={data}
+      columnsOptions={dateColumnsOptions}
+      nextPage={() => null}
+      caption={"Tabela com ordenação por data"}
+      paginationButtonsTexts={paginationButtonsTexts}
+      project={""}
+    />
+  )
+}
+
+sortingTableWithDates.args = {
+  hasSort: true,
+  pagination: false,
 }
