@@ -21,6 +21,9 @@ import { Button } from "../../Atoms/Button"
     ariaLabels -> translations for aria-labels to help read "A", "AA", "AAA"
     setCheckboxesSelected -> method to change checkboxes states
     serverSidePagination -> If true, assumes dataList is already paginated by the server (no client-side slice)
+    onSortChange -> function(property, direction) => void. If provided, sorting is delegated (e.g. to the server)
+                    and dataList is not sorted locally. direction is "asc" or "desc"
+    maxItemsPerPage -> Upper bound for the items-per-page options (e.g. the server's maximum pagination limit)
 */
 const SortingTable = (
     {
@@ -49,6 +52,8 @@ const SortingTable = (
         onItemsPerPageChange, // function(itemsPerPage) => void
         paginationOptions, // array of numbers for items per page
         serverSidePagination = false, // if true, data is already paginated by server
+        onSortChange, // function(property, direction) => void, delegates sorting (e.g. server-side)
+        maxItemsPerPage, // upper bound for items-per-page options
         hasColAndRowspan = true, // if true, shows rowSpan, colSpan and scope properties
         // Accessibility texts for sorting
         sortingTexts = {
@@ -89,12 +94,28 @@ const SortingTable = (
     const defaultPaginationOptions = [50, 100, 250, 500].filter(opt => opt < nAllItems);
     
     const baseOptions = Array.isArray(paginationOptions) && paginationOptions.length > 0 ? paginationOptions : defaultPaginationOptions;
-    const pageOptions = baseOptions[baseOptions.length - 1] === nAllItems ? baseOptions : [...baseOptions.filter(opt => opt < nAllItems), nAllItems];
+    const allOptions = baseOptions[baseOptions.length - 1] === nAllItems ? baseOptions : [...baseOptions.filter(opt => opt < nAllItems), nAllItems];
+    // Never offer more items per page than the maximum allowed (e.g. the server pagination limit)
+    const cappedOptions = typeof maxItemsPerPage === 'number'
+        ? allOptions.filter(opt => opt <= maxItemsPerPage)
+        : allOptions;
+    const pageOptions = cappedOptions.length > 0 ? cappedOptions : [maxItemsPerPage];
 
     // Handlers
     const handlePageChange = (newPage) => {
         if (!isControlled) setInternalPage(newPage);
         if (onPageChange) onPageChange(newPage);
+    };
+
+    // Header click: delegate to onSortChange when provided, otherwise sort dataList locally
+    const handleSort = (property, sortType = "auto") => {
+        if (onSortChange) {
+            const direction = sort.property === property && sort.type === 'asc' ? 'desc' : 'asc';
+            setSort({ property, type: direction });
+            onSortChange(property, direction);
+            return;
+        }
+        setDataList(sortByProperty(property, sortType));
     };
 
     const sortByProperty = (property, sortType = "auto") => {
@@ -284,7 +305,7 @@ const SortingTable = (
                         <button
                             type="button"
                             className={`sorting-header-button ${sameProp ? 'show_icon' : ''}`}
-                            onClick={() => setDataList(sortByProperty(headerData.property))}
+                            onClick={() => handleSort(headerData.property)}
                         >
                             {headerData.name}
                             <span className="arrow" aria-hidden="true">
@@ -316,7 +337,7 @@ const SortingTable = (
                         <button
                             type="button"
                             className={`sorting-header-button ${sameProp ? 'show_icon' : ''}`}
-                            onClick={() => setDataList(sortByProperty(headerData.property, "date"))}
+                            onClick={() => handleSort(headerData.property, "date")}
                         >
                             {headerData.name}
                             <span className="arrow" aria-hidden="true">
@@ -350,7 +371,7 @@ const SortingTable = (
                         <button
                             type="button"
                             className={`sorting-header-button first-show ${sameProp ? 'show_icon' : ''}`}
-                            onClick={() => setDataList(sortByProperty(headerData.property))}
+                            onClick={() => handleSort(headerData.property)}
                         >
                             <Icon name={headerData.name} description={headerData.description} />
                             <span className="arrow" aria-hidden="true">
