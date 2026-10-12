@@ -1,5 +1,11 @@
 # @a12e/accessmonitor-ds
 
+## 1.2.0
+
+### Minor Changes
+
+- 7f8d7bb: SortingTable: add onSortChange to delegate sorting (server-side) and maxItemsPerPage to cap the items-per-page options
+
 ## 1.1.0
 
 ### Minor Changes
