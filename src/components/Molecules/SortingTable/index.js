@@ -24,6 +24,9 @@ import { Button } from "../../Atoms/Button"
     onSortChange -> function(property, direction) => void. If provided, sorting is delegated (e.g. to the server)
                     and dataList is not sorted locally. direction is "asc" or "desc"
     maxItemsPerPage -> Upper bound for the items-per-page options (e.g. the server's maximum pagination limit)
+    itemsPerPageNavLabel -> Accessible name of the <nav> with the items-per-page selector (default "itens por página")
+    pagesNavLabel -> Accessible name of the <nav> with the page navigation buttons (default "páginas")
+    selectAllLabel -> Accessible name of the "select all" checkbox in a Checkbox header (default "selecionar registos")
 */
 const SortingTable = (
     {
@@ -55,6 +58,11 @@ const SortingTable = (
         onSortChange, // function(property, direction) => void, delegates sorting (e.g. server-side)
         maxItemsPerPage, // upper bound for items-per-page options
         hasColAndRowspan = true, // if true, shows rowSpan, colSpan and scope properties
+        // Accessible names for landmarks and controls. Defaults are kept in Portuguese for
+        // backwards compatibility; apps in other languages must pass translated values.
+        itemsPerPageNavLabel = "itens por página",
+        pagesNavLabel = "páginas",
+        selectAllLabel = "selecionar registos",
         // Accessibility texts for sorting
         sortingTexts = {
             none: " Sem ordenação",
@@ -389,7 +397,7 @@ const SortingTable = (
                     <input
                         ref={selectAllRef}
                         type="checkbox"
-                        aria-label="selecionar registos"
+                        aria-label={selectAllLabel}
                         checked={isAllChecked}
                         onChange={() => addCheckboxes('all')}
                         value="all"
@@ -625,7 +633,7 @@ const SortingTable = (
                 </div>
 
                 {/* Section informing the number of items per page and option to change */}
-                <nav className="pagination_section" aria-label="itens por página">
+                <nav className="pagination_section" aria-label={itemsPerPageNavLabel}>
                     <span className="ama-typography-body">{nItemsPerPageTexts[0]}</span>
                     <select
                         aria-label={nItemsPerPageTexts[2]}
@@ -643,7 +651,7 @@ const SortingTable = (
                 </nav>
 
                 {/* Section with the pagination navigation */}
-                <nav className="pagination_section" aria-label="páginas" >
+                <nav className="pagination_section" aria-label={pagesNavLabel}>
                     <button disabled={page === 1} className={page === 1 ? "disabled button_dir" : "button_dir"} onClick={() => handlePageChange(1)}>
                         <span className="visually-hidden">{paginationButtonsTexts[0]}</span>
                         <Icon name="AMA-LastPage-Solid" />
