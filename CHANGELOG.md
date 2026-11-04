@@ -1,5 +1,12 @@
 # @a12e/accessmonitor-ds
 
+## 1.3.0
+
+### Minor Changes
+
+- e68051c: Footer: add optional `logoSrc` and `logoDarkSrc` props so consuming apps can provide the ARTE logo source when `/img/...` is not served from their public folder. Defaults are unchanged.
+- 11cd9b7: `SortingTable` accepts three new props for accessible names that were hardcoded in Portuguese: `itemsPerPageNavLabel` (the `<nav>` around the items-per-page selector), `pagesNavLabel` (the `<nav>` with the page buttons) and `selectAllLabel` (the "select all" checkbox in a `Checkbox` header). Defaults are unchanged (`"itens por página"`, `"páginas"`, `"selecionar registos"`), so existing usages render the same markup. Apps in other languages should pass translated values so screen readers announce these landmarks in the page language (WCAG 3.1.2, 2.4.6).
+
 ## 1.2.0
 
 ### Minor Changes
