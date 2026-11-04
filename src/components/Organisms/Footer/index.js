@@ -1,11 +1,14 @@
 import "./styles.css";
 import React from "react";
 
-export function Footer({ darkTheme }) {
+const DEFAULT_LOGO_LIGHT = "/img/Logotipo_ARTE__Horizontal_cor_pt.png";
+const DEFAULT_LOGO_DARK = "/img/Logotipo_ARTE__Horizontal_branco_pt.png";
+
+export function Footer({ darkTheme, logoSrc, logoDarkSrc }) {
   const theme = darkTheme === "dark" ? "dark" : ""
   const amaLogoSrc = darkTheme === "dark"
-    ? "/img/Logotipo_ARTE__Horizontal_branco_pt.png"
-    : "/img/Logotipo_ARTE__Horizontal_cor_pt.png";
+    ? logoDarkSrc || DEFAULT_LOGO_DARK
+    : logoSrc || DEFAULT_LOGO_LIGHT;
   return (
     <footer className={`py-5 ama ${theme}`}>
       <div className="container">

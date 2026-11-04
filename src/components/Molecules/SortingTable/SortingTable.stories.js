@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { SortingTable } from "./index";
 import Documentation from './Documentation.md'
 import { useDarkMode } from 'storybook-dark-mode';
+import { expect, userEvent, within } from "@storybook/test";
 
 const directoriesHeaders = [
   [
@@ -56,7 +57,8 @@ let paginationButtonsTexts = [
 
 let nItemsPerPageText=[
   "Ver ",
-  " itens por página"
+  " itens por página",
+  "Itens por página"
 ]
 
 let itemsPaginationText = [
@@ -449,6 +451,15 @@ sortingTable.args = {
   nItemsPerPageTexts: nItemsPerPageText
 }
 
+// Without the new label props the component keeps the previous Portuguese names,
+// so existing consumers see no change.
+sortingTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole("navigation", { name: "itens por página" })).toBeInTheDocument();
+  await expect(canvas.getByRole("navigation", { name: "páginas" })).toBeInTheDocument();
+  await expect(canvas.getByRole("checkbox", { name: "selecionar registos" })).toBeInTheDocument();
+}
+
 // Story with Text column as checkbox label (not a link)
 const simpleHeaders = [
   {type: "Checkbox", name: "Selecionar", property: "select"},
@@ -541,4 +552,101 @@ export const sortingTableWithDates = (args) => {
 sortingTableWithDates.args = {
   hasSort: true,
   pagination: false,
+}
+
+// English texts: every accessible name comes from props, including the pagination landmarks
+// (itemsPerPageNavLabel, pagesNavLabel) and the select-all checkbox (selectAllLabel).
+const englishHeaders = [
+  { type: "Checkbox", name: "Select", property: "select" },
+  { type: "SortingText", name: "Website", property: "name" },
+  { type: "SortingText", name: "Score", property: "score", justifyCenter: true },
+  { type: "SortingText", name: "Pages", property: "nPages", justifyCenter: true },
+]
+
+const englishColumnsOptions = {
+  id: { type: "Skip", center: false, bold: false },
+  select: { type: "Checkbox", center: true, bold: false },
+  name: { type: "Text", center: false, bold: false, isCheckboxLabel: true },
+  score: { type: "Number", center: true, bold: false, decimalPlace: true },
+  nPages: { type: "Number", center: true, bold: false, decimalPlace: false },
+}
+
+const englishDataRows = Array.from({ length: 12 }, (_, i) => ({
+  id: i + 1,
+  select: i + 1,
+  name: `Website ${i + 1}`,
+  score: 10 - i * 0.5,
+  nPages: (i + 1) * 3,
+}))
+
+export const englishLabels = (args) => {
+  const [data, setData] = useState(englishDataRows)
+  const [checkboxesSelected, setCheckboxesSelected] = useState([])
+  const [page, setPage] = useState(1)
+  const [perPage, setPerPage] = useState(5)
+
+  return (
+    <div lang="en">
+      <SortingTable
+        {...args}
+        darkTheme={useDarkMode() ? "dark" : "light"}
+        headers={englishHeaders}
+        setDataList={setData}
+        dataList={data}
+        columnsOptions={englishColumnsOptions}
+        nextPage={() => null}
+        caption={"Monitored websites"}
+        project={""}
+        setCheckboxesSelected={setCheckboxesSelected}
+        checkedItems={checkboxesSelected}
+        currentPage={page}
+        itemsPerPage={perPage}
+        onPageChange={setPage}
+        onItemsPerPageChange={(n) => { setPerPage(n); setPage(1) }}
+        paginationOptions={[5, 10]}
+      />
+    </div>
+  )
+}
+
+englishLabels.args = {
+  hasSort: true,
+  pagination: true,
+  itemsPaginationTexts: [" of ", " items"],
+  nItemsPerPageTexts: ["Show ", " items per page", "Items per page"],
+  paginationButtonsTexts: ["First page", "Previous page", "Next page", "Last page"],
+  sortingTexts: { none: " Not sorted", ascending: " Sorted ascending", descending: " Sorted descending" },
+  itemsPerPageNavLabel: "Items per page",
+  pagesNavLabel: "Pages",
+  selectAllLabel: "Select all rows",
+}
+
+englishLabels.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  // Landmarks and the select-all checkbox are named in English, with no Portuguese left over
+  const itemsNav = canvas.getByRole("navigation", { name: "Items per page" });
+  const pagesNav = canvas.getByRole("navigation", { name: "Pages" });
+  await expect(canvas.getByRole("checkbox", { name: "Select all rows" })).toBeInTheDocument();
+  await expect(canvas.queryByRole("navigation", { name: "itens por página" })).toBeNull();
+  await expect(canvas.queryByRole("navigation", { name: "páginas" })).toBeNull();
+  await expect(canvas.getByText("1 - 5 of 12 items")).toBeInTheDocument();
+
+  // Keyboard: focus the "Next page" button and activate it with Enter
+  const next = within(pagesNav).getByRole("button", { name: "Next page" });
+  next.focus();
+  await expect(next).toHaveFocus();
+  await userEvent.keyboard("{Enter}");
+  await expect(canvas.getByText("6 - 10 of 12 items")).toBeInTheDocument();
+
+  // Keyboard: "Last page" with Space
+  const last = within(pagesNav).getByRole("button", { name: "Last page" });
+  last.focus();
+  await userEvent.keyboard(" ");
+  await expect(canvas.getByText("11 - 12 of 12 items")).toBeInTheDocument();
+
+  // Items per page selector inside the named landmark
+  const select = within(itemsNav).getByRole("combobox", { name: "Items per page" });
+  await userEvent.selectOptions(select, "10");
+  await expect(canvas.getByText("1 - 10 of 12 items")).toBeInTheDocument();
 }

@@ -110,13 +110,25 @@ Array com 2 textos para indicar o número de items na paginação
 
 
 #### nItemsPerPageTexts
-Array com 2 textos para escolher o número de items para a paginação
+Array com os textos do seletor de número de itens por página. Os dois primeiros envolvem o seletor; o terceiro é o nome acessível do próprio `<select>`.
 
 	Exemplo: "Ver 50 itens por página"
 	[
   	"Ver",
-  	"itens por página"
+  	"itens por página",
+  	"Itens por página"
 	]
+
+#### itemsPerPageNavLabel
+Nome acessível do `<nav>` que contém o seletor de itens por página. Por omissão `"itens por página"`, para manter o comportamento anterior. Apps noutras línguas devem passar o texto traduzido (WCAG 3.1.2 e 2.4.6), por exemplo `"Items per page"`.
+
+#### pagesNavLabel
+Nome acessível do `<nav>` com os botões de navegação entre páginas. Por omissão `"páginas"`; em inglês, por exemplo, `"Pages"`.
+
+#### selectAllLabel
+Nome acessível da checkbox "selecionar todos" que aparece num cabeçalho do tipo `Checkbox`. Por omissão `"selecionar registos"`; em inglês, por exemplo, `"Select all rows"`.
+
+Os valores por omissão destas três props ficam em português por compatibilidade. Quem usa o componente numa interface que não esteja em português deve passar sempre as três, tal como já passa `nItemsPerPageTexts`, `paginationButtonsTexts` e `sortingTexts`. A story `English Labels` mostra a configuração completa em inglês.
 
 
 #### iconsAltTexts
