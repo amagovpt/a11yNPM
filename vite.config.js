@@ -19,6 +19,8 @@ const jsJsxPlugin = () => ({
 export default defineConfig({
   plugins: [jsJsxPlugin(), react(), dts()],
   build: {
+    // Embed the ARTE logos in the bundle so the Footer works without copying files into the app
+    assetsInlineLimit: (file) => (file.includes("Logotipo_ARTE") ? true : undefined),
     lib: {
       entry: resolve(__dirname, "src/index.js"),
       name: "@a12e/accessmonitor-ds",
