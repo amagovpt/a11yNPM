@@ -1,8 +1,10 @@
 import "./styles.css";
 import React from "react";
+import logoLight from "../../../../public/img/Logotipo_ARTE__Horizontal_cor_pt.png";
+import logoDark from "../../../../public/img/Logotipo_ARTE__Horizontal_branco_pt.png";
 
-const DEFAULT_LOGO_LIGHT = "/img/Logotipo_ARTE__Horizontal_cor_pt.png";
-const DEFAULT_LOGO_DARK = "/img/Logotipo_ARTE__Horizontal_branco_pt.png";
+const DEFAULT_LOGO_LIGHT = logoLight;
+const DEFAULT_LOGO_DARK = logoDark;
 
 export function Footer({ darkTheme, logoSrc, logoDarkSrc }) {
   const theme = darkTheme === "dark" ? "dark" : ""

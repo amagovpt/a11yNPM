@@ -2,4 +2,4 @@
 "@a12e/accessmonitor-ds": minor
 ---
 
-Footer: add optional `logoSrc` and `logoDarkSrc` props so consuming apps can provide the ARTE logo source when `/img/...` is not served from their public folder. Defaults are unchanged.
+Footer: the ARTE logos (colour and white) are now embedded in the bundle, so the footer shows the logo as soon as the package is installed, without copying files into the app's `public/img`. Adds optional `logoSrc` and `logoDarkSrc` props to override the images.
