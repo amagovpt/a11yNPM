@@ -2,6 +2,7 @@ import "./styles.css";
 import React from "react";
 import logoLight from "../../../../public/img/Logotipo_ARTE__Horizontal_cor_pt.png";
 import logoDark from "../../../../public/img/Logotipo_ARTE__Horizontal_branco_pt.png";
+import logoRepublica from "../../../../public/img/logo-republica.svg";
 
 const DEFAULT_LOGO_LIGHT = logoLight;
 const DEFAULT_LOGO_DARK = logoDark;
@@ -104,6 +105,15 @@ export function Footer({ darkTheme, logoSrc, logoDarkSrc }) {
               alt="ARTE - Agência para a Reforma Tecnológica do Estado"
               src={amaLogoSrc}
               width="210"
+              className="img-fluid"
+            />
+          </li>
+          <li className="footer-logo-republica">
+            <img
+              decoding="async"
+              alt="República Portuguesa"
+              src={logoRepublica}
+              height="48"
               className="img-fluid"
             />
           </li>
