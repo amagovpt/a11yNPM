@@ -88,3 +88,9 @@ footer.ama.dark li a,
 footer.ama.dark p {
   color: var(--ama-color-text-blue) !important;
 }
+/* O logo da República tem texto preto: no tema escuro precisa de fundo claro */
+footer.ama.dark .footer-logo-republica img {
+  background-color: #fff;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
