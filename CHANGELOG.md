@@ -1,5 +1,11 @@
 # @a12e/accessmonitor-ds
 
+## 1.3.2
+
+### Patch Changes
+
+- 32d0cbf: Footer: adiciona o logo da República Portuguesa ao lado do logo da ARTE, embebido no bundle. No tema escuro o logo é apresentado sobre fundo claro para manter a legibilidade.
+
 ## 1.3.1
 
 ### Patch Changes
